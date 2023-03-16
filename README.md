@@ -25,6 +25,21 @@ These notebooks are for:
 1. Discovering insights in unstructured data using inference on unstructured data only, or 
 2. Leveraging structured data to build a model that can be used to infer insight into other texts.
 
+### tfidf-model
+
+Create a term-frequency/inverse-document-frequency model of unlemmatized Greek texts. You can then input a text of any length (could be a book, paragraph, pericope, sentence, etc.) to this model and it will return the 10 most significant terms summarizing that text.
+
+Example input:
+`input_text = "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος."`
+
+Output:
+```
+0.58: θεόν
+0.54: λόγος
+0.47: ἀρχῇ
+0.40: θεὸς
+```
+
 ### semantic-search-mvp
 
 This notebook offers a minimal viable example of how one might go about vectorizing documents (in this case paragraphs/verse clusters in the KJV) and subsequently querying the model for similar documents. Since the underlying data is so small, the quality of the results is minimal, but the concept is at least illustrated.
