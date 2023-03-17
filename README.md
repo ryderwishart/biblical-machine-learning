@@ -6,11 +6,15 @@ This repo contains example notebooks covering various basic or more complex appr
 
 These notebooks are focused on helping a user gain insight and identify patterns using a corpus of **structured** or **annotated** data.
 
-### topic-modelling
+### [macula-greek-pandas](https://github.com/ryderwishart/biblical-machine-learning/blob/main/macula_greek_pandas.ipynb)
+
+Process [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Exemplifies doing some basic derivation of new data columns on the basis of existing data, and leverages semantic domains to identify the most similar chapters in the New Testament.
+
+### [topic-modelling](https://github.com/ryderwishart/biblical-machine-learning/blob/main/topic_modelling.ipynb)
 
 Create a topic model from Macula Greek data using lemmas as the input data. The model is created using the ensemble technique (see this [thesis](https://www.sezanzeb.de/machine_learning/ensemble_LDA/)), where multiple models are generated initially, and then only the most stable topics are included in the final model. The topic model is presented as an interactive visualization using `pyLDAvis`.
 
-### domain-topic-modelling
+### [domain-topic-modelling](https://github.com/ryderwishart/biblical-machine-learning/blob/main/domain_topic_modelling.ipynb)
 
 Create a topic model from Macula Greek data using semantic domains, rather than lemmas, which is useful for people not familiar with original languages, and exemplifies the way semantic domains can capture some interesting generalizations.
 
@@ -25,7 +29,7 @@ These notebooks are for:
 1. Discovering insights in unstructured data using inference on unstructured data only, or 
 2. Leveraging structured data to build a model that can be used to infer insight into other texts.
 
-### tfidf-model
+### [tfidf-model](https://github.com/ryderwishart/biblical-machine-learning/blob/main/tfidf_model.ipynb)
 
 Create a term-frequency/inverse-document-frequency model of unlemmatized Greek texts. You can then input a text of any length (could be a book, paragraph, pericope, sentence, etc.) to this model and it will return the 10 most significant terms summarizing that text.
 
@@ -40,7 +44,7 @@ Output:
 0.40: θεὸς
 ```
 
-### semantic-search-mvp
+### [semantic-search-mvp](https://github.com/ryderwishart/biblical-machine-learning/blob/main/semantic_search_mvp.ipynb)
 
 This notebook offers a minimal viable example of how one might go about vectorizing documents (in this case paragraphs/verse clusters in the KJV) and subsequently querying the model for similar documents. Since the underlying data is so small, the quality of the results is minimal, but the concept is at least illustrated.
 
