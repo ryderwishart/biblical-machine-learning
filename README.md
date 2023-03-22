@@ -22,6 +22,12 @@ Topic models can be based on individual books, or subcorpora (sets of books).
 
 <img width="876" alt="Screen Shot 2023-03-16 at 10 46 52 AM" src="https://user-images.githubusercontent.com/19649268/225708295-df86e63c-d4f1-478b-91fa-0ac090f13526.png">
 
+### [syntax-knowledge-graph](https://github.com/ryderwishart/biblical-machine-learning/blob/main/topic_modelling.ipynb)
+
+Build a graph from macula-greek syntax and plot in notebook or download as `.graphml` for visualization in Gephi, or your preferred graphing software.
+
+<img width="652" alt="Screen Shot 2023-03-22 at 10 23 25 AM" src="https://user-images.githubusercontent.com/19649268/226987274-329fee96-d466-4916-8acc-92ce40ecf87a.png">
+
 ## Unstructured Data Insights
 
 These notebooks are for:
