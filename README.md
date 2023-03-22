@@ -28,6 +28,10 @@ Build a graph from macula-greek syntax and plot in notebook or download as `.gra
 
 <img width="652" alt="Screen Shot 2023-03-22 at 10 23 25 AM" src="https://user-images.githubusercontent.com/19649268/226987274-329fee96-d466-4916-8acc-92ce40ecf87a.png">
 
+You can also create a graph using the glosses as labels. Other kinds of relationships (such as coreference) could be used as well. This notebook is merely intended to exemplify one possibility.
+
+<img width="1025" alt="Screen Shot 2023-03-22 at 1 09 13 PM" src="https://user-images.githubusercontent.com/19649268/227026321-2fa2f3a9-39e5-43ef-9651-2beb4f9b033d.png">
+
 ## Unstructured Data Insights
 
 These notebooks are for:
