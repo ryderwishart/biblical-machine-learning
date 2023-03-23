@@ -10,6 +10,10 @@ These notebooks are focused on helping a user gain insight and identify patterns
 
 Process [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Exemplifies doing some basic derivation of new data columns on the basis of existing data, and leverages semantic domains to identify the most similar chapters in the New Testament.
 
+### [macula-data-overview](https://github.com/ryderwishart/biblical-machine-learning/blob/main/macula_data_overview.ipynb)
+
+A very soft intro to pulling down an processing [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Load and explore column names, descriptions, and data values.
+
 ### [topic-modelling](https://github.com/ryderwishart/biblical-machine-learning/blob/main/topic_modelling.ipynb)
 
 Create a topic model from Macula Greek data using lemmas as the input data. The model is created using the ensemble technique (see this [thesis](https://www.sezanzeb.de/machine_learning/ensemble_LDA/)), where multiple models are generated initially, and then only the most stable topics are included in the final model. The topic model is presented as an interactive visualization using `pyLDAvis`.
