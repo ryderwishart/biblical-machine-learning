@@ -12,7 +12,11 @@ Process [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data usi
 
 ### [macula-data-overview](https://github.com/ryderwishart/biblical-machine-learning/blob/main/macula_data_overview.ipynb)
 
-A very soft intro to pulling down an processing [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Load and explore column names, descriptions, and data values.
+A very soft intro to pulling down and processing [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Load and explore column names, descriptions, and data values.
+
+### [semantic-domains-overview](https://github.com/ryderwishart/biblical-machine-learning/blob/main/semantic_domains_overview.ipynb)
+
+Simple notebook loading up [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data and a semantic-domain lookup dictionary. Defines a function to search through semantic domain labels and return words.
 
 ### [topic-modelling](https://github.com/ryderwishart/biblical-machine-learning/blob/main/topic_modelling.ipynb)
 
