@@ -1,0 +1,334 @@
+{
+    "parameters": [
+        {
+            "name": "field",
+            "type": "register_parameter",
+            "summary": "Field is the subject matter of a situation and concerns the nature and the structure of the activity being carried out. It involves three parameters: abstractness, activity focus, and goals.",
+            "system": "field"
+        },
+        {
+            "name": "tenor",
+            "type": "register_parameter",
+            "summary": "Tenor pertains to the social roles and relationships among the participants involved in a situation. It covers five parameters: value orientation predisposition, publicity, number of speaking participants, control, and social distance.",
+            "system": "tenor"
+        },
+        {
+            "name": "mode",
+            "type": "register_parameter",
+            "summary": "Mode is the dimension of a situation through which participants are brought into contact with each other. It involves the systems of material contact and semantic contact, focusing on four parameters: language role, process sharing, channel, and medium.",
+            "system": "mode"
+        }
+    ],
+    "systems": [
+        {
+            "name": "abstractness",
+            "type": "system",
+            "summary": "The abstractness of a situation refers to the distinction between conceptual and practical activities, with the former involving theoretical or abstract activities, while the latter involves concrete or immediate actions."
+        },
+        {
+            "name": "activity focus",
+            "type": "system",
+            "summary": "The activity focus of a situation involves the domain of experience that participants are focusing on. An experiential focus refers to what is happening, an interpersonal focus refers to why it is happening, and a logical focus refers to how, when, or where it is happening. The analysis only captures the beginning and the end of the focus, even if it changes during the episode."
+        },
+        {
+            "name": "goals",
+            "type": "system",
+            "summary": "The goals of a situational activity involve the motivation of actions, and can be instructing, projecting, or asserting."
+        },
+        {
+            "name": "control",
+            "type": "system",
+            "summary": "Control involves social tendencies related to deference between participants based on their relative status, power, authority, or institutional roles. Situations may be hierarchic or non-hierarchic, with the former being unequal and the latter being equal. In unequal relationships, there may be numerous subjects that cannot typically be discussed, whereas equal relationships allow for a greater range of meanings to be exchanged."
+        },
+        {
+            "name": "plurality",
+            "type": "system",
+            "summary": "The plurality system pertains to the number of speaking participants in a situation, and includes the parameters of monological, dialogical, and multilogical. This system recognizes that more than two participants may be engaged in dialogical activity, interacting with each other in various overlapping arrangements over the course of a situation."
+        },
+        {
+            "name": "value-orientation-disposition",
+            "type": "system",
+            "summary": "Value-orientation disposition refers to the nature of relative alliance or opposition between agents in a situation, and answers the question of whether the situation is presented as if there is agreement or opposition between participants. The system distinguishes between an allying disposition that realizes agreement and an opposing disposition that realizes disagreement."
+        },
+        {
+            "name": "social-distance",
+            "type": "system",
+            "summary": "Social distance refers to the level of familiarity between participants in a situation. Close participants may exchange more kinds of meanings and require less explicitness in their communication, while distant participants tend to require more explicitness and have a more restricted set of possible meaning exchanges."
+        },
+        {
+            "name": "publicity",
+            "type": "system",
+            "summary": "Publicity is a dimension of tenor that refers to the presence or absence of onlookers with regard to a social act, and the various levels of engagement such onlookers might reveal. It includes disinterested, interested (neutral or biased), and private situations."
+        },
+        {
+            "name": "language-role",
+            "type": "system",
+            "summary": "Language role refers to the amount of work language does in accomplishing a situation's activity, and can be constitutive or ancillary depending on whether language is the primary means of accomplishing the activity or simply assists in the unfolding of non-linguistic actions."
+        },
+        {
+            "name": "process-sharing",
+            "type": "system",
+            "summary": "Process sharing refers to the degree of active participation by more than one participant in the unfolding of text, and can be active or passive depending on whether participants share in the creation of the text or engage with it more passively."
+        },
+        {
+            "name": "channel",
+            "type": "system",
+            "summary": "Channel refers to the physical mechanics of the addressee's interaction with the text, and can be phonic or graphic. It is closely related to process sharing, and is decided by the nature of the social activity and of the social relation between the participants."
+        },
+        {
+            "name": "medium",
+            "type": "system",
+            "summary": "Medium refers to the style or patterning of the wordings themselves, and can be spoken or written. It is a matter of style, and is related to the extemporaneousness of the language realizing a situation."
+        }
+    ],
+    "features": [
+        {
+            "name": "conceptual-ie-internally-oriented",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Conceptual field values involve abstract or theoretical activities, such as theological or philosophical discussions.",
+            "system": "field",
+            "parameter": "abstractness"
+        },
+        {
+            "name": "practical-ie-outwardly-oriented",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Practical field values involve activities that are concrete or focused on immediate actions, such as fishing, a healing, or a miracle.",
+            "system": "field",
+            "parameter": "abstractness"
+        },
+        {
+            "name": "experiential",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Experiential activity focus characterizes a situation whose linguistic activity chiefly relates to the unfolding of events or happenings, where participants are involved in carrying out or observing the activity.",
+            "system": "field",
+            "parameter": "activity_focus"
+        },
+        {
+            "name": "interpersonal",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Interpersonal activity focus pertains to the social interaction between participants, focusing on their roles, relationships, and attitudes.",
+            "system": "field",
+            "parameter": "activity_focus"
+        },
+        {
+            "name": "logical",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Logical activity focus involves reasoning, argumentation, or explanation, where participants engage in activities that require logical thinking.",
+            "system": "field",
+            "parameter": "activity_focus"
+        },
+        {
+            "name": "instructing",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Instructing goals are centered around teaching, explaining, or providing guidance to others.",
+            "system": "field",
+            "parameter": "goals"
+        },
+        {
+            "name": "projecting",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Projecting goals involve making predictions, prophesying, or discussing future events or possibilities.",
+            "system": "field",
+            "parameter": "goals"
+        },
+        {
+            "name": "asserting",
+            "type": "feature",
+            "register_parameter": "field",
+            "description": "Asserting goals involve stating or affirming beliefs, claims, or opinions, often in a declarative manner.",
+            "system": "field",
+            "parameter": "goals"
+        },
+        {
+            "name": "allying",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Allying value orientation predisposition refers to participants who share the same views or are supportive of each other's positions.",
+            "system": "tenor",
+            "parameter": "value_orientation_predisposition"
+        },
+        {
+            "name": "opposing",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Opposing value orientation predisposition refers to participants who hold different views or are antagonistic toward each other's positions.",
+            "system": "tenor",
+            "parameter": "value_orientation_predisposition"
+        },
+        {
+            "name": "disinterested",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Disinterested publicity refers to a neutral stance where participants are not personally invested in the outcome or do not take sides.",
+            "system": "tenor",
+            "parameter": "publicity"
+        },
+        {
+            "name": "neutral",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Neutral publicity refers to a situation where participants neither support nor oppose a particular stance or outcome.",
+            "system": "tenor",
+            "parameter": "publicity"
+        },
+        {
+            "name": "on-someones-side",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "On-someones-side publicity refers to a situation where participants actively support a particular stance or outcome.",
+            "system": "tenor",
+            "parameter": "publicity"
+        },
+        {
+            "name": "private",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Private publicity refers to a situation where participants actively oppose a particular stance or outcome.",
+            "system": "tenor",
+            "parameter": "publicity"
+        },
+        {
+            "name": "monological",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Monological refers to situations with only one speaking participant, such as a monologue or a soliloquy.",
+            "system": "tenor",
+            "parameter": "number_of_speaking_participants"
+        },
+        {
+            "name": "dialogical",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Dialogical refers to situations with two speaking participants, such as a dialogue or conversation.",
+            "system": "tenor",
+            "parameter": "number_of_speaking_participants"
+        },
+        {
+            "name": "multilogical",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Multilogical refers to situations with three or more speaking participants, such as group discussions or debates.",
+            "system": "tenor",
+            "parameter": "number_of_speaking_participants"
+        },
+        {
+            "name": "institutional",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Institutional control refers to situations where one participant or a group of participants hold authority or power over others.",
+            "system": "tenor",
+            "parameter": "control"
+        },
+        {
+            "name": "non-institutional-or-neutralized",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Non-institutional or neutralized control refers to situations where no specific participant or group holds authority or power over others.",
+            "system": "tenor",
+            "parameter": "control"
+        },
+        {
+            "name": "unclear",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Unclear control refers to situations where it is not evident who holds authority or power.",
+            "system": "tenor",
+            "parameter": "control"
+        },
+        {
+            "name": "equalized",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Equalized control refers to situations where all participants have an equal share of authority or power.",
+            "system": "tenor",
+            "parameter": "control"
+        },
+        {
+            "name": "close",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Close social distance refers to situations where participants have a close relationship or are familiar with each other.",
+            "system": "tenor",
+            "parameter": "social_distance"
+        },
+        {
+            "name": "distant",
+            "type": "feature",
+            "register_parameter": "tenor",
+            "description": "Distant social distance refers to situations where participants have a distant relationship or are not familiar with each other.",
+            "system": "tenor",
+            "parameter": "social_distance"
+        },
+        {
+            "name": "constitutive",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Constitutive language role refers to situations where language is the primary means of carrying out the activity or achieving the goal.",
+            "system": "mode",
+            "parameter": "language_role"
+        },
+        {
+            "name": "ancillary",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Ancillary language role refers to situations where language plays a secondary or supporting role in carrying out the activity or achieving the goal.",
+            "system": "mode",
+            "parameter": "language_role"
+        },
+        {
+            "name": "addressee-more-active",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Addressee-more-active process sharing refers to situations where the recipient of the message is more actively involved in the communication process, such as asking questions or providing feedback.",
+            "system": "mode",
+            "parameter": "process_sharing"
+        },
+        {
+            "name": "addressee-more-passive",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Addressee-more-passive process sharing refers to situations where the recipient of the message is less actively involved in the communication process, such as listening or reading without providing feedback.",
+            "system": "mode",
+            "parameter": "process_sharing"
+        },
+        {
+            "name": "phonic",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Phonic channel refers to communication through sound, such as spoken language or music.",
+            "system": "mode",
+            "parameter": "channel"
+        },
+        {
+            "name": "graphic",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Graphic channel refers to communication through visual means, such as written language, images, or symbols.",
+            "system": "mode",
+            "parameter": "channel"
+        },
+        {
+            "name": "spoken",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Spoken medium refers to communication that takes place through speech, either in face-to-face conversations or through audio recordings.",
+            "system": "mode",
+            "parameter": "medium"
+        },
+        {
+            "name": "written",
+            "type": "feature",
+            "register_parameter": "mode",
+            "description": "Written medium refers to communication that takes place through text, either in print or digital formats.",
+            "system": "mode",
+            "parameter": "medium"
+        }
+    ]
+}
