@@ -10,7 +10,7 @@ These notebooks are focused on helping a user gain insight and identify patterns
 
 I'll answer any question you like about the Bible... if you have an OpenAI API key of course.
 
-<img width="669" alt="Screen Shot 2023-05-10 at 11 53 20 PM" src="https://github.com/ryderwishart/biblical-machine-learning/assets/19649268/9e31e556-0b75-4923-b05a-906965a32fb1">
+<img width="803" alt="Screen Shot 2023-05-10 at 11 57 15 PM" src="https://github.com/ryderwishart/biblical-machine-learning/assets/19649268/09532565-beb6-4198-86cc-605bab317b12">
 
 ### [macula-greek-pandas](https://github.com/ryderwishart/biblical-machine-learning/blob/main/macula_greek_pandas.ipynb)
 
