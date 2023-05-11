@@ -6,6 +6,12 @@ This repo contains example notebooks covering various basic or more complex appr
 
 These notebooks are focused on helping a user gain insight and identify patterns using a corpus of **structured** or **annotated** data.
 
+### [ai_bible_query](https://github.com/ryderwishart/biblical-machine-learning/blob/main/ai_bible_query.ipynb)
+
+I'll answer any question you like about the Bible... if you have an OpenAI API key of course.
+
+<img width="803" alt="Screen Shot 2023-05-10 at 11 57 15 PM" src="https://github.com/ryderwishart/biblical-machine-learning/assets/19649268/09532565-beb6-4198-86cc-605bab317b12">
+
 ### [macula-greek-pandas](https://github.com/ryderwishart/biblical-machine-learning/blob/main/macula_greek_pandas.ipynb)
 
 Process [macula-greek](https://github.com/Clear-Bible/macula-greek) TSV data using the Pandas library. Exemplifies doing some basic derivation of new data columns on the basis of existing data, and leverages semantic domains to identify the most similar chapters in the New Testament.
