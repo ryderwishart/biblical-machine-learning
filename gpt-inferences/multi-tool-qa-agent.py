@@ -557,7 +557,7 @@ tools = [
         # Use the
         # func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
         # func=bible_verse_tool.run,
-        func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
+        func=lambda x: bible_chroma.search(x, search_type="similarity", k=3),
         description="useful for finding verses that are similar to the user's query, not suitable for complex queries",
         callbacks=[StreamlitSidebarCallbackHandler()],
     ),
@@ -574,7 +574,7 @@ tools = [
     ),
     Tool(
         name="Linguistic Data Lookup",
-        func=lambda x: context_chroma.similarity_search(x, k=2),
+        func=lambda x: context_chroma.similarity_search(x, k=1),
         # func=lambda query: get_similar_resource(context_chroma, query, k=2),
         callbacks=[StreamlitSidebarCallbackHandler()],
         description="useful for finding linguistic data about the user's query. Use this if the user is asking a question that relates to the linguistic discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage",
@@ -837,30 +837,59 @@ agent = initialize_agent(
 #         # Display the stdout in the sidebar
 #         st.sidebar.write(output.getvalue())
 
-
 st.header("Genesis Demo")
 from streamlit_chat import message
+from datetime import datetime
+import random
 
-# message("My message")
-# message("Hello bot!", is_user=True)  # align's the message to the right
+# Initialize the chat history in session_state if it doesn't exist
+if "chat_history" not in st.session_state:
+    st.session_state["chat_history"] = []
 
-# # Create a text input for user input
-user_input = st.text_input("Enter your message:")
+# Create a container for the chat history
+chat_container = st.expander("Chat History")
 
-if user_input:
-    message(user_input, is_user=True, avatar_style="icons")
+# Create a container for the user input
+input_container = st.container()
 
-    # Run the agent with the user's input
-    try:
-        result = agent.run(
+
+# Display the chat history
+with chat_container:
+    for sender, text in reversed(st.session_state["chat_history"]):
+        is_user = sender == "user"
+        message(text, is_user=is_user, avatar_style="icons")
+
+# Create a text input for user input in the input container
+with input_container:
+    user_input = st.text_input("Enter your message:")
+
+    if user_input:
+        ai_response = st.empty()
+        st.empty()  # clear the input field
+
+        timestamp = datetime.now().strftime("%H:%M:%S")
+
+        # Add the user's input to the chat history
+        st.session_state["chat_history"].append(("user", user_input))
+        message(
             user_input,
-            # callbacks=[
-            #     # StreamingStdOutCallbackHandler(),
-            #     StreamlitSidebarCallbackHandler(),
-            # ],
+            is_user=True,
+            avatar_style="icons",
+            key=f"user-{timestamp}_ {str(random.randint(0, 1000))}",
         )
-    except Exception as e:
-        result = "Sorry, I don't know! I hit an error: " + str(e)
 
-    # Display the final output in the main app
-    message(result, avatar_style="icons")
+        # Run the agent with the user's input
+        try:
+            result = agent.run(user_input)
+        except Exception as e:
+            result = "Sorry, I don't know! I hit an error: " + str(e)
+
+        # Add the agent's response to the chat history
+        st.session_state["chat_history"].append(("agent", result))
+
+        # Display the final output in the main app
+        message(
+            result,
+            avatar_style="icons",
+            key=f"agent-{timestamp}_ {str(random.randint(0, 1000))}",
+        )
