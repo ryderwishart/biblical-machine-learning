@@ -8,6 +8,7 @@ st.set_page_config(page_title="Genesis Demo", page_icon=":robot:")
 import os
 import getpass
 import pandas as pd
+import re
 
 # Use environment variable to set OpenAI API key if already set (just leave this code commented out if already set)
 # secret_key = getpass.getpass("Enter OpenAI secret key: ")
@@ -187,160 +188,7 @@ def get_syntax_for_query(query):
     return get_treedown_by_ref(most_relevant_passage_usfm_ref)
 
 
-# ## Use self-querying for more specific data results
-
-# If we want to use a self-query tool to filter results with metadata, use this code:
-
-from langchain.llms import OpenAI
-from langchain.retrievers.self_query.base import SelfQueryRetriever
-from langchain.chains.query_constructor.base import AttributeInfo
-from langchain.chains.llm import LLMChain
-from langchain.chains.query_constructor import ir
-from langchain.chains.query_constructor.parser import QueryTransformer
-from langchain.chains.query_constructor.prompt import DEFAULT_SCHEMA
-
-metadata_field_info = [
-    AttributeInfo(
-        name="source",
-        description="File path to the source document",
-        type="string",
-    ),
-    # AttributeInfo(
-    #     name="data_scope",
-    #     description="Type/scope of linguistic data in document, one of [Syntax, Lexical, Discourse, Social-Situational, Cultural-encyclopedic]. Always pick one of these as a filter.",
-    #     type="string",
-    # ),
-    AttributeInfo(
-        name="verse_ref",
-        description="Complete BOK CH:VS reference for verse (in USFM format)",
-        type="string",
-    ),
-    AttributeInfo(
-        name="book",
-        description="Book name",
-        type="string",
-    ),
-    AttributeInfo(
-        name="chapter",
-        description="Chapter number",
-        type="integer",
-    ),
-    AttributeInfo(
-        name="verse",
-        description="Verse number",
-        type="integer",
-    ),
-]
-document_content_description = "Linguistic data about a bible verse"
-# retriever = SelfQueryRetriever.from_llm(llm, context_chroma, document_content_description, metadata_field_info, verbose=True)
-
-
-# The downside of the self-query path is that it involves more LLM calls in theory. However, it might be worth exploring in the future whether a single massive Chroma DB with richer metadata isn't more efficient than a bunch of smaller ones, provided the tool associated with the DB is a self-querying one that can filter results based on metadata.
-
-# In[30]:
-
-
-from langchain.tools import tool
-
-
-@tool
-def get_context_for_most_relevant_passage(query, k=3):
-    """Finds relevant context for a bible passage"""
-    docs = bible_chroma.search(query, search_type="similarity", k=k)
-    print(docs)
-    most_relevant_doc = docs[0]
-    # print('most_relevant_doc', most_relevant_doc)
-    verse_ref = most_relevant_doc.metadata["source"]
-
-    # Input most relevant doc as metadata filter into context_chroma
-    # context_docs = retriever.get_relevant_documents(f"{query} in {verse_ref}")
-    # context_docs = context_chroma.search(f"{query} in {verse_ref} ('{most_relevant_doc.page_content}')", search_type='similarity', k=1)
-    context_docs = context_chroma.search(query, search_type="similarity", k=k)
-
-    # return most_relevant_doc, context_docs
-    return docs, context_docs
-
-
-# tools = [
-#     Tool(
-#         name="Context for Most Relevant Passage",
-#         func=get_context_for_most_relevant_passage.run,
-#         description="useful for when you need to find relevant linguistic context for a Bible passage. Input should be a full question",
-#     ),
-# ]
-
-# self_ask_with_search = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-
-
-# ## Define custom tools for an agent
-
-# In[31]:
-
-
-# Import things that are needed generically
-from langchain.agents import initialize_agent, Tool
-from langchain.agents import AgentType
-from langchain.llms import OpenAI
-from langchain import LLMMathChain, SerpAPIWrapper
-
-
-# In[32]:
-
-
-tools = [
-    Tool(
-        name="Bible Verse Reader Lookup",
-        # Use the
-        func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
-        description="useful for finding verses that are similar to the user's query, not suitable for complex queries",
-    ),
-    # Tool(
-    #     name="Bible Words Lookup",
-    #     func=macula_greek_agent.run, # Note: using the NT-only agent here
-    #     description="useful for finding information about biblical words from the Macula TSV data, which includes glosses, lemmas, normalized forms, and more. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words themselves",
-    # ),
-    Tool(
-        name="Bible Verse Dataframe Tool",
-        func=macula_greek_agent.run,  # Note: using the NT-only agent here
-        description="useful for finding information about Bible verses in a dataframe in case counting, grouping, aggregating, or list building is required. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words (English or Greek or Greek lemmas) themselves",
-    ),
-    Tool(
-        name="Linguistic Data Lookup",
-        func=lambda x: context_chroma.similarity_search_with_score(
-            x, search_type="similarity", k=2
-        ),
-        description="useful for finding linguistic data about the user's query. Use this if the user is asking a question that relates to the linguistic discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage",
-    ),
-    # Tool(
-    #     name="Context for Most Relevant Passage", # NOTE: this tool isn't working quite right. Needs some work
-    #     func=get_context_for_most_relevant_passage.run,
-    #     description="useful for when you need to find relevant linguistic context for a Bible passage. Input should be 'situation for' and the original user query",
-    # ),
-    Tool(
-        name="Syntax Data Lookup",
-        func=lambda x: get_syntax_for_query(x),
-        description="useful for finding syntax data about the user's query. Use this if the user is asking a question that relates to a sentence's structure, such as 'who is the subject of this sentence?' or 'what are the circumstances of this verb?'",
-    ),
-    Tool(
-        name="Theological Data Lookup",
-        func=lambda x: theology_chroma.search(x, search_type="similarity", k=2),
-        description="useful for finding theological data about the user's query. Use this if the user is asking about theological concepts or value-oriented questions about 'why' the Bible says certain things. Always be sure to cite the source of the data",
-    ),
-    Tool(
-        name="Encyclopedic Data Lookup",
-        func=lambda x: encyclopedic_chroma.similarity_search_with_score(
-            x, search_type="similarity", k=2
-        ),
-        description="useful for finding encyclopedic data about the user's query. Use this if the user is asking about historical, cultural, geographical, archaeological, or other types of information from secondary sources",
-    ),
-    Tool(
-        name="Any Other Kind of Question Tool",
-        func=lambda x: "Sorry, I don't know!",
-        description="This tool is for vague, broad, ambiguous questions",
-    ),
-]
-
-
+# Define callback handlers
 # In[33]:
 
 
@@ -380,7 +228,10 @@ class StreamlitSidebarCallbackHandler(BaseCallbackHandler):
     """Callback Handler that logs to streamlit."""
 
     def __init__(self) -> None:
-        self.tokens_area = st.sidebar.empty()
+        """Initialize the callback handler."""
+        # self.tokens_area = st.sidebar.markdown("## Database Resources Consulted")
+        tokens_area = st.expander("See Agent Reasoning")
+        self.tokens_area = tokens_area
         self.tokens_stream = ""
 
     def on_llm_start(
@@ -411,12 +262,12 @@ class StreamlitSidebarCallbackHandler(BaseCallbackHandler):
         self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs: Any
     ) -> None:
         """Print out that we are entering a chain."""
-        class_name = serialized["name"]
-        st.sidebar.write(f"Entering new {class_name} chain...")
+        # class_name = serialized["name"]
+        # st.sidebar.write(f"Entering new {class_name} chain...")
 
     def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> None:
         """Print out that we finished a chain."""
-        st.sidebar.write("Finished chain.")
+        # st.sidebar.write("Finished chain.")
 
     def on_chain_error(
         self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
@@ -446,8 +297,27 @@ class StreamlitSidebarCallbackHandler(BaseCallbackHandler):
         **kwargs: Any,
     ) -> None:
         """If not the final action, print out observation."""
-        st.sidebar.write(f"{observation_prefix}{output}")
-        st.sidebar.write(llm_prefix)
+        # verses_with_refs = output
+        # try:
+        #     # assuming output is your string
+        #     matches = re.findall(
+        #         r"metadata.: \{.source.: .(.*?)., .usfm.: ..*?.\}, page_content=.(.*?).",
+        #         output,
+        #     )
+
+        #     # matches will be a list of tuples where the first element of the tuple is the source and the second element is the page_content
+        #     verses_with_refs = [match[0] + ": " + match[1] + "\n" for match in matches]
+        #     verses_with_refs = "  \n- ".join(verses_with_refs)
+
+        #     # st.sidebar.markdown(verses_with_refs)
+        # except Exception as e:
+        #     st.write("error on tool end", e)
+        with st.expander("See Sources"):
+            st.markdown(
+                f"**<span style='color:blue'>Checked these sources</span>:**\n{output}",
+                unsafe_allow_html=True,
+            )
+        # st.write(f"output: /{output}/")
 
     def on_tool_error(
         self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
@@ -466,90 +336,306 @@ class StreamlitSidebarCallbackHandler(BaseCallbackHandler):
         st.sidebar.write(finish.log.replace("\n", "  \n"))
 
 
-# class StreamingSocketIOCallbackHandler(BaseCallbackHandler):
-#     """Callback handler for streaming. Only works with LLMs that support streaming."""
-
-#     def on_llm_start(
-#         self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
-#     ) -> None:
-#         """Run when LLM starts running."""
-#         print('emitting emit("activity", {"loading": True})')
-#         emit("activity", {"loading": True})
-
-#     def on_llm_new_token(self, token: str, **kwargs: Any) -> None:
-#         """Run on new LLM token. Only available when streaming is enabled."""
-#         print('emitting emit("activity", {"stdout": token})')
-#         emit("activity", {"stdout": token})
-
-#     def on_llm_end(self, response: LLMResult, **kwargs: Any) -> None:
-#         """Run when LLM ends running."""
-#         print('emitting emit("activity", {"loading": False})')
-#         emit("activity", {"loading": False})
-
-#     def on_llm_error(
-#         self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
-#     ) -> None:
-#         """Run when LLM errors."""
-#         print('emitting emit("activity", {"error": str(error)})')
-#         emit("activity", {"error": str(error)})
-
-#     def on_chain_start(
-#         self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs: Any
-#     ) -> None:
-#         """Run when chain starts running."""
-
-#     def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> None:
-#         """Run when chain ends running."""
-
-#     def on_chain_error(
-#         self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
-#     ) -> None:
-#         """Run when chain errors."""
-
-#     def on_tool_start(
-#         self, serialized: Dict[str, Any], input_str: str, **kwargs: Any
-#     ) -> None:
-#         """Run when tool starts running."""
-#         print('emitting emit("activity", {"tool_start": serialized})')
-#         emit("activity", {"tool_start": serialized})
-
-#     def on_agent_action(self, action: AgentAction, **kwargs: Any) -> Any:
-#         """Run on agent action."""
-#         print('emitting emit("activity", {"action": action.text})')
-#         emit("activity", {"action": action.text})
-
-#     def on_tool_end(self, output: str, **kwargs: Any) -> None:
-#         """Run when tool ends running."""
-
-#     def on_tool_error(
-#         self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
-#     ) -> None:
-#         """Run when tool errors."""
-
-#     def on_text(self, text: str, **kwargs: Any) -> None:
-#         """Run on arbitrary text."""
-
-#     def on_agent_finish(self, finish: AgentFinish, **kwargs: Any) -> None:
-#         """Run on agent end."""
-#         print('emitting emit("activity", {"result": finish, "loading": False})')
-#         emit("activity", {"result": finish, "loading": False})
+# class StreamlitDropdownCallbackHandler(StreamlitSidebarCallbackHandler):
+#     """Callback handler to put agent reasoning into a dropdown."""
 
 
-from langchain.callbacks.streamlit import StreamlitCallbackHandler
+class StreamingSocketIOCallbackHandler(BaseCallbackHandler):
+    """Callback handler for streaming. Only works with LLMs that support streaming."""
+
+    def on_llm_start(
+        self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
+    ) -> None:
+        """Run when LLM starts running."""
+        print('emitting emit("activity", {"loading": True})')
+        emit("activity", {"loading": True})
+
+    def on_llm_new_token(self, token: str, **kwargs: Any) -> None:
+        """Run on new LLM token. Only available when streaming is enabled."""
+        print('emitting emit("activity", {"stdout": token})')
+        emit("activity", {"stdout": token})
+
+    def on_llm_end(self, response: LLMResult, **kwargs: Any) -> None:
+        """Run when LLM ends running."""
+        print('emitting emit("activity", {"loading": False})')
+        emit("activity", {"loading": False})
+
+    def on_llm_error(
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+    ) -> None:
+        """Run when LLM errors."""
+        print('emitting emit("activity", {"error": str(error)})')
+        emit("activity", {"error": str(error)})
+
+    def on_chain_start(
+        self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs: Any
+    ) -> None:
+        """Run when chain starts running."""
+
+    def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> None:
+        """Run when chain ends running."""
+
+    def on_chain_error(
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+    ) -> None:
+        """Run when chain errors."""
+
+    def on_tool_start(
+        self, serialized: Dict[str, Any], input_str: str, **kwargs: Any
+    ) -> None:
+        """Run when tool starts running."""
+        print('emitting emit("activity", {"tool_start": serialized})')
+        emit("activity", {"tool_start": serialized})
+
+    def on_agent_action(self, action: AgentAction, **kwargs: Any) -> Any:
+        """Run on agent action."""
+        print('emitting emit("activity", {"action": action.text})')
+        emit("activity", {"action": action.text})
+
+    def on_tool_end(self, output: str, **kwargs: Any) -> None:
+        """Run when tool ends running."""
+
+    def on_tool_error(
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+    ) -> None:
+        """Run when tool errors."""
+
+    def on_text(self, text: str, **kwargs: Any) -> None:
+        """Run on arbitrary text."""
+
+    def on_agent_finish(self, finish: AgentFinish, **kwargs: Any) -> None:
+        """Run on agent end."""
+        print('emitting emit("activity", {"result": finish, "loading": False})')
+        emit("activity", {"result": finish, "loading": False})
+
+
+import sys
+from typing import Any, Dict, List, Union
+
+from langchain.callbacks.base import BaseCallbackHandler
+from langchain.schema import AgentAction, AgentFinish, LLMResult
+
+
+class StreamingStdOutCallbackHandler(BaseCallbackHandler):
+    """Callback handler for streaming. Only works with LLMs that support streaming."""
+
+    def __init__(self) -> None:
+        """Initialize the callback handler."""
+        self.tokens_area = st.sidebar.empty()
+        # self.tokens_area = tokens_area
+        # self.tokens_area = st.empty()
+        self.tokens_stream = "Agent Reasoning\n\n"
+
+    def on_llm_new_token(self, token: str, **kwargs: Any) -> None:
+        """Run on new LLM token. Only available when streaming is enabled."""
+        sys.stdout.write(token)
+        sys.stdout.flush()
+
+        if token == ".":
+            token = ".\n\n"
+
+        self.tokens_stream += token
+        # Replace 'Input:', 'Final Answer:', 'Action:', with '\n' + string in tokens_stream
+        # self.tokens_stream = (
+        #     self.tokens_stream.replace("Input:", "\nInput:")
+        #     .replace("Final Answer:", "\nFinal Answer:")
+        #     .replace("Action:", "\nAction:")
+        # )
+
+        # self.tokens_area.markdown(self.tokens_stream)
+
+        if token == ".":
+            token = ".\n\n"
+
+        # Replace 'Input:', 'Final Answer:', 'Action:', with '\n' + string in tokens_stream
+        formatted_tokens_stream = (
+            self.tokens_stream.replace(
+                "Input:", "\n<span style='color:red'>Input</span>"
+            )
+            .replace("Final Answer:", "\n<span style='color:green'>Final Answer</span>")
+            .replace("Action:", "\n<span style='color:blue'>Action</span>")
+        )
+
+        self.tokens_area.markdown(formatted_tokens_stream, unsafe_allow_html=True)
+
+    def on_llm_start(
+        self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
+    ) -> None:
+        """Run when LLM starts running."""
+        # clear self.tokens_area
+
+    def on_chain_start(
+        self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs: Any
+    ) -> None:
+        """Run when chain starts running."""
+
+    def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> None:
+        """Run when chain ends running."""
+        # tokens_area += f"OUTPUTS: {outputs}\n"
+
+    def on_chain_error(
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+    ) -> None:
+        """Run when chain errors."""
+
+    def on_tool_start(
+        self, serialized: Dict[str, Any], input_str: str, **kwargs: Any
+    ) -> None:
+        """Run when tool starts running."""
+
+    def on_agent_action(self, action: AgentAction, **kwargs: Any) -> Any:
+        """Run on agent action."""
+        pass
+
+    def on_tool_end(self, output: str, **kwargs: Any) -> None:
+        """Run when tool ends running."""
+        # st.write(f"Tool end output: {output}")
+
+    def on_tool_error(
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+    ) -> None:
+        """Run when tool errors."""
+
+    def on_text(self, text: str, **kwargs: Any) -> None:
+        """Run on arbitrary text."""
+
+    def on_agent_finish(self, finish: AgentFinish, **kwargs: Any) -> None:
+        """Run on agent end."""
+
+
+# from langchain.callbacks.streamlit import StreamlitCallbackHandler
+
+# ## Define custom tools for an agent
+
+# In[31]:
+
+
+# Import things that are needed generically
+from langchain.agents import initialize_agent, Tool
+from langchain.tools import tool
+from langchain.agents import AgentType
+from langchain.llms import OpenAI
+from langchain import LLMMathChain, SerpAPIWrapper
+from langchain.chat_models import ChatOpenAI
+from langchain.llms import OpenAI
+from langchain.agents import load_tools, initialize_agent
+from langchain.agents import AgentType
+
+# import term2md
+
+# human_tool = load_tools(["human"])[0]
+
+# In[32]:
+
+# global_resources_consulted_log = []  # keep track of each time a resource is consulted
+
+
+# def get_similar_resource(db, query, k=3):
+#     get_result = lambda x: db.similarity_search(x, k=k)
+#     # global_resources_consulted_log.append(result)
+#     result = get_result(query)
+#     print("DEBUG", result)
+#     result_string = [
+#         i.metadata["source"] + i.page_content + "\n" for i in result.split("Document")
+#     ]
+#     st.write(f"Found {len(result)} results")
+#     st.write(f"Searching {db.name} for {query}...")
+#     st.markdown(f"## Results\n{result_string}")
+
+#     return result
+
+
+# @tool
+# def bible_verse_tool(input):
+#     """Tool for finding similar verses in the Bible."""
+#     return get_similar_resource(bible_chroma, input, k=2)
+
+
+tools = [
+    Tool(
+        name="Bible Verse Reader Lookup",
+        # Use the
+        # func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
+        # func=bible_verse_tool.run,
+        func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
+        description="useful for finding verses that are similar to the user's query, not suitable for complex queries",
+        callbacks=[StreamlitSidebarCallbackHandler()],
+    ),
+    # Tool(
+    #     name="Bible Words Lookup",
+    #     func=macula_greek_agent.run, # Note: using the NT-only agent here
+    #     description="useful for finding information about biblical words from the Macula TSV data, which includes glosses, lemmas, normalized forms, and more. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words themselves",
+    # ),
+    Tool(
+        name="Bible Verse Dataframe Tool",
+        func=macula_greek_agent.run,  # Note: using the NT-only agent here
+        description="useful for finding information about Bible verses in a dataframe in case counting, grouping, aggregating, or list building is required. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words (English or Greek or Greek lemmas) themselves",
+        callbacks=[StreamlitSidebarCallbackHandler()],
+    ),
+    Tool(
+        name="Linguistic Data Lookup",
+        func=lambda x: context_chroma.similarity_search(x, k=2),
+        # func=lambda query: get_similar_resource(context_chroma, query, k=2),
+        callbacks=[StreamlitSidebarCallbackHandler()],
+        description="useful for finding linguistic data about the user's query. Use this if the user is asking a question that relates to the linguistic discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage",
+    ),
+    # Tool(
+    #     name="Context for Most Relevant Passage", # NOTE: this tool isn't working quite right. Needs some work
+    #     func=get_context_for_most_relevant_passage.run,
+    #     description="useful for when you need to find relevant linguistic context for a Bible passage. Input should be 'situation for' and the original user query",
+    # callbacks=[StreamlitSidebarCallbackHandler()],
+    # ),
+    Tool(
+        name="Syntax Data Lookup",
+        func=lambda x: get_syntax_for_query(x),
+        description="useful for finding syntax data about the user's query. Use this if the user is asking a question that relates to a sentence's structure, such as 'who is the subject of this sentence?' or 'what are the circumstances of this verb?'",
+        callbacks=[StreamlitSidebarCallbackHandler()],
+    ),
+    Tool(
+        name="Theological Data Lookup",
+        func=lambda x: theology_chroma.search(x, search_type="similarity", k=2),
+        # func=lambda query: get_similar_resource(theology_chroma, query, k=2),
+        callbacks=[StreamlitSidebarCallbackHandler()],
+        description="useful for finding theological data about the user's query. Use this if the user is asking about theological concepts or value-oriented questions about 'why' the Bible says certain things. Always be sure to cite the source of the data",
+    ),
+    Tool(
+        name="Encyclopedic Data Lookup",
+        func=lambda x: encyclopedic_chroma.similarity_search(x, k=2),
+        # func=lambda query: get_similar_resource(encyclopedic_chroma, query, k=2),
+        callbacks=[StreamlitSidebarCallbackHandler()],
+        description="useful for finding encyclopedic data about the user's query. Use this if the user is asking about historical, cultural, geographical, archaeological, or other types of information from secondary sources",
+    ),
+    Tool(
+        name="Any Other Kind of Question Tool",
+        func=lambda x: "Sorry, I don't know!",
+        description="This tool is for vague, broad, ambiguous questions",
+        callbacks=[StreamlitSidebarCallbackHandler()],
+    ),
+    # human_tool,
+    # Tool(
+    #     name="Get Human Input Tool",
+    #     func=lambda x: input(x),
+    #     description="This tool is for vague, broad, ambiguous questions that require human input for clarification",
+    # ),
+]
 
 agent = initialize_agent(
     tools,
     # OpenAI(temperature=0, streaming=True, callbacks=[StreamingStdOutCallbackHandler()]),
     OpenAI(
-        temperature=0, streaming=True, callbacks=[StreamlitSidebarCallbackHandler()]
+        temperature=0,
+        streaming=True,
+        # callbacks=[StreamlitSidebarCallbackHandler(), StreamingStdOutCallbackHandler()],
+        callbacks=[StreamingStdOutCallbackHandler()],
     ),
     # OpenAI(
     #     temperature=0, streaming=True, callbacks=[StreamingSocketIOCallbackHandler()]
     # ),
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    # verbose=True,
+    verbose=True,
     # reduce_k_below_max_tokens=True,
 )
+
 
 # # Flask UI - non streaming
 
@@ -700,41 +786,6 @@ agent = initialize_agent(
 #     logging.basicConfig(filename="job.log", level=logging.INFO)
 #     socketio.run(app, port=5001, debug=True)
 
-
-# # Streamlit UI (non-streaming)
-
-import streamlit as st
-
-# import sys
-# from io import StringIO
-
-
-# # Capture stdout
-# class CapturedOutput:
-#     def __enter__(self):
-#         self._stdout = sys.stdout
-#         sys.stdout = self._stringio = StringIO()
-#         return self
-
-#     def __exit__(self, type, value, traceback):
-#         sys.stdout = self._stdout
-
-#     @property
-#     def getvalue(self):
-#         return self._stringio.getvalue()
-
-
-# if user_input:
-#     with CapturedOutput() as output:
-#         # Run the agent with the user's input
-#         final_output = agent.run(user_input)
-
-#     # Display the final output in the main app
-#     st.write(f"Chatbot: {final_output}")
-
-#     # Display the stdout in the sidebar
-#     st.sidebar.write(output.getvalue)
-
 # Steamlit UI - Streaming version
 
 # import streamlit as st
@@ -797,13 +848,19 @@ from streamlit_chat import message
 user_input = st.text_input("Enter your message:")
 
 if user_input:
-    message(user_input, is_user=True)
+    message(user_input, is_user=True, avatar_style="icons")
 
     # Run the agent with the user's input
     try:
-        result = agent.run(user_input)
+        result = agent.run(
+            user_input,
+            # callbacks=[
+            #     # StreamingStdOutCallbackHandler(),
+            #     StreamlitSidebarCallbackHandler(),
+            # ],
+        )
     except Exception as e:
-        result = "Sorry, I don't know!"
+        result = "Sorry, I don't know! I hit an error: " + str(e)
 
     # Display the final output in the main app
-    message(result)
+    message(result, avatar_style="icons")
