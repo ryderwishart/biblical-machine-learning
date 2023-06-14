@@ -838,6 +838,7 @@ agent = initialize_agent(
 #         st.sidebar.write(output.getvalue())
 
 st.header("Genesis Demo")
+st.image("/Users/ryderwishart/Downloads/DALL·E 2023-06-14 11.05.52.png", width=600)
 from streamlit_chat import message
 from datetime import datetime
 import random
@@ -847,7 +848,7 @@ if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 
 # Create a container for the chat history
-chat_container = st.expander("Chat History")
+chat_container = st.expander("Question History")
 
 # Create a container for the user input
 input_container = st.container()
@@ -861,9 +862,10 @@ with chat_container:
 
 # Create a text input for user input in the input container
 with input_container:
-    user_input = st.text_input("Enter your message:")
+    user_input = st.text_input("Ask a question:")
 
     if user_input:
+        chat_container.empty()  # clear the chat history widget
         ai_response = st.empty()
         st.empty()  # clear the input field
 
@@ -875,7 +877,7 @@ with input_container:
             user_input,
             is_user=True,
             avatar_style="icons",
-            key=f"user-{timestamp}_ {str(random.randint(0, 1000))}",
+            key=f"user-{timestamp}_{str(random.randint(0, 1000))}",
         )
 
         # Run the agent with the user's input
@@ -890,6 +892,6 @@ with input_container:
         # Display the final output in the main app
         message(
             result,
-            avatar_style="icons",
-            key=f"agent-{timestamp}_ {str(random.randint(0, 1000))}",
+            # avatar_style="icons",
+            key=f"agent-{timestamp}_{str(random.randint(0, 1000))}",
         )
