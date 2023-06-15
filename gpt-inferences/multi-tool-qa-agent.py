@@ -503,8 +503,6 @@ class StreamingStdOutCallbackHandler(BaseCallbackHandler):
         """Run on agent end."""
 
 
-# from langchain.callbacks.streamlit import StreamlitCallbackHandler
-
 # ## Define custom tools for an agent
 
 # In[31]:
@@ -521,43 +519,100 @@ from langchain.llms import OpenAI
 from langchain.agents import load_tools, initialize_agent
 from langchain.agents import AgentType
 
+document_qa_template = """\
+Given the provided Bible passages and a question (which should be focused on exegetical or linguistic aspects), create a conclusive answer referencing the provided "SOURCES". 
+If the answer is not found within the given sources, admit the inability to answer, but refrain from inventing answers.
+ALWAYS include a "SOURCES" part in your response.
+
+QUESTION: What is the implication of the term 'only begotten'?
+=========
+Content: For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.
+Source: John 3:16
+=========
+FINAL ANSWER: The term 'only begotten' is used to specify and clarify which Son is in view, pointing specifically to Jesus. 
+SOURCES: John 3:16
+
+QUESTION: Why isn't John 1:1 translated as 'a god was the Word'?
+=========
+Content: In the beginning was the Word, and the Word was with God, and the Word was God.
+Syntax: [[p: In [the] (Ἐν)] beginning (ἀρχῇ)] [vc: was (ἦν)] [s: the (ὁ)] Word,(Λόγος)] and (καὶ)] 
+[[s: the (ὁ)] Word (Λόγος)] [vc: was (ἦν)] [p: with (πρὸς)] - (τὸν)] God,(Θεόν)] and (καὶ)] 
+[[p: God (Θεὸς)] [vc: was (ἦν)] [s: the (ὁ)] Word.(Λόγος)]
+Source: John 1:1
+=========
+FINAL ANSWER: The term 'God' in John 1:1 functions as a verbal predicate (the 'p' role in the syntax data), not the subject. In English, we usually place the subject first. Also, Koine Greek doesn't have an indefinite article like 'a', so such an interpretation would have to be inferred from the context, and the rest of John's context may not support this interpretation.
+SOURCES: John 1:1
+
+QUESTION: Who was the first person Paul encountered in Rome?
+=========
+Content:
+Source: 
+=========
+FINAL ANSWER: I couldn't find any documents related to that question, please modify your query or try something else. 
+SOURCES: 
+
+QUESTION: Is the concept of reincarnation compatible with Christianity?
+=========
+Content: It is appointed unto men once to die, but after this the judgment.
+Source: Hebrews 9:27
+Content: Truly, truly, I say to you, whoever hears my word and believes him who sent me has eternal life. He does not come into judgment, but has passed from death to life.
+Source: John 5:24
+=========
+FINAL ANSWER: The passages I looked at seem to suggest that death is followed by judgment and not a cycle of rebirths, but this is really more of a theological question. For a more nuanced discussion, you would be better off consulting theological secondary sources directly.
+SOURCES: Hebrews 9:27, John 5:24
+
+QUESTION: {question}
+=========
+{summaries}
+=========
+FINAL ANSWER:
+"""
+
+
 # import term2md
 
 # human_tool = load_tools(["human"])[0]
 
-# In[32]:
+# For each chain, customize prompt with `chain.combine_documents_chain.llm_chain.prompt.template = document_qa_template`
 
-# global_resources_consulted_log = []  # keep track of each time a resource is consulted
+from langchain.chains import RetrievalQAWithSourcesChain
 
+llm = ChatOpenAI(
+    model_name="gpt-3.5-turbo-16k",
+    temperature=0,
+    streaming=True,
+    # callbacks=[StreamlitSidebarCallbackHandler(), StreamingStdOutCallbackHandler()],
+    callbacks=[StreamingStdOutCallbackHandler()],
+)
 
-# def get_similar_resource(db, query, k=3):
-#     get_result = lambda x: db.similarity_search(x, k=k)
-#     # global_resources_consulted_log.append(result)
-#     result = get_result(query)
-#     print("DEBUG", result)
-#     result_string = [
-#         i.metadata["source"] + i.page_content + "\n" for i in result.split("Document")
-#     ]
-#     st.write(f"Found {len(result)} results")
-#     st.write(f"Searching {db.name} for {query}...")
-#     st.markdown(f"## Results\n{result_string}")
+bible_tool = RetrievalQAWithSourcesChain.from_chain_type(
+    llm, chain_type="stuff", retriever=bible_chroma.as_retriever()
+)
+context_tool = RetrievalQAWithSourcesChain.from_chain_type(
+    llm, chain_type="stuff", retriever=context_chroma.as_retriever()
+)
+theology_tool = RetrievalQAWithSourcesChain.from_chain_type(
+    llm, chain_type="stuff", retriever=theology_chroma.as_retriever()
+)
+encyclopedic_tool = RetrievalQAWithSourcesChain.from_chain_type(
+    llm, chain_type="stuff", retriever=encyclopedic_chroma.as_retriever()
+)
 
-#     return result
-
-
-# @tool
-# def bible_verse_tool(input):
-#     """Tool for finding similar verses in the Bible."""
-#     return get_similar_resource(bible_chroma, input, k=2)
-
+# Update the prompts
+bible_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
+context_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
+theology_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
+encyclopedic_tool.combine_documents_chain.llm_chain.prompt.template = (
+    document_qa_template
+)
 
 tools = [
     Tool(
         name="Bible Verse Reader Lookup",
         # Use the
         # func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
-        # func=bible_verse_tool.run,
-        func=lambda x: bible_chroma.search(x, search_type="similarity", k=3),
+        func=lambda x: bible_tool({"question": x}, return_only_outputs=True),
+        # func=lambda x: bible_chroma.search(x, search_type="similarity", k=3),
         description="useful for finding verses that are similar to the user's query, not suitable for complex queries",
         callbacks=[StreamlitSidebarCallbackHandler()],
     ),
@@ -574,10 +629,11 @@ tools = [
     ),
     Tool(
         name="Linguistic Data Lookup",
-        func=lambda x: context_chroma.similarity_search(x, k=1),
+        # func=lambda x: context_chroma.similarity_search(x, k=1),
         # func=lambda query: get_similar_resource(context_chroma, query, k=2),
+        func=lambda x: context_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
-        description="useful for finding linguistic data about the user's query. Use this if the user is asking a question that relates to the linguistic discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage",
+        description="useful for finding answers about linguistics, discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage. Use this more than the other tools.",
     ),
     # Tool(
     #     name="Context for Most Relevant Passage", # NOTE: this tool isn't working quite right. Needs some work
@@ -593,15 +649,17 @@ tools = [
     ),
     Tool(
         name="Theological Data Lookup",
-        func=lambda x: theology_chroma.search(x, search_type="similarity", k=2),
+        # func=lambda x: theology_chroma.search(x, search_type="similarity", k=2),
         # func=lambda query: get_similar_resource(theology_chroma, query, k=2),
+        func=lambda x: theology_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
-        description="useful for finding theological data about the user's query. Use this if the user is asking about theological concepts or value-oriented questions about 'why' the Bible says certain things. Always be sure to cite the source of the data",
+        description="if you can't find a linguistic answer, this is useful only for finding theological data about the user's query. Use this if the user is asking about theological concepts or value-oriented questions about 'why' the Bible says certain things. Always be sure to cite the source of the data",
     ),
     Tool(
         name="Encyclopedic Data Lookup",
-        func=lambda x: encyclopedic_chroma.similarity_search(x, k=2),
+        # func=lambda x: encyclopedic_chroma.similarity_search(x, k=2),
         # func=lambda query: get_similar_resource(encyclopedic_chroma, query, k=2),
+        func=lambda x: encyclopedic_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
         description="useful for finding encyclopedic data about the user's query. Use this if the user is asking about historical, cultural, geographical, archaeological, or other types of information from secondary sources",
     ),
@@ -622,12 +680,7 @@ tools = [
 agent = initialize_agent(
     tools,
     # OpenAI(temperature=0, streaming=True, callbacks=[StreamingStdOutCallbackHandler()]),
-    OpenAI(
-        temperature=0,
-        streaming=True,
-        # callbacks=[StreamlitSidebarCallbackHandler(), StreamingStdOutCallbackHandler()],
-        callbacks=[StreamingStdOutCallbackHandler()],
-    ),
+    llm,
     # OpenAI(
     #     temperature=0, streaming=True, callbacks=[StreamingSocketIOCallbackHandler()]
     # ),
