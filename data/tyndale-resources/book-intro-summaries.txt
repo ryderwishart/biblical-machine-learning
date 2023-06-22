@@ -1,395 +1,395 @@
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Genesis (Gen.1.1-50.26)
+
+## Genesis (Gen.1.1-50.26)
 The Book of Genesis Purpose To trace the establishment of God’s plan to overcome sin through his chosen people, Israel Author Moses, according to tradition Date Records primeval events and events from the patriarchal period (ca. 2100–1700  BC ) Setting A variety of places in the Middle East, focusing heavily on the patriarchs during their time in Canaan and Egypt
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Exodus (Exod.1.1-40.38)
+
+## Exodus (Exod.1.1-40.38)
 The Book of Exodus Purpose To recount the deliverance of the Hebrews from Egypt and the establishment of their covenant and worship practices Author Moses, according to tradition Date Records events that likely occurred in either 1526–1446  BC  or 1350–1270  BC Setting Begins with the Hebrews in slavery in Egypt and ends with the covenant people of God en route to the Promised Land
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Leviticus (Lev.1.1-27.34)
+
+## Leviticus (Lev.1.1-27.34)
 The Book of Leviticus Purpose To demonstrate God’s holiness and point his people to lead holy lives Author Moses, according to tradition Date Records events that likely occurred around either 1446  BC  or 1270  BC Setting The Israelites had been established as God’s covenant people and were camped at the foot of Mount Sinai
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Numbers (Num.1.1-36.13)
+
+## Numbers (Num.1.1-36.13)
 The Book of Numbers Purpose To document the transition from the unfaithful generation who left Egypt to the generation who would enter the Promised Land Author Moses, according to tradition Date Records events that likely occurred around either 1445–1406  BC  or 1269–1230  BC Setting The book begins with the Israelites at Sinai, traces their journey through the wilderness, and closes with them in the plains of Moab at the doorstep of the Promised Land
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Deuteronomy (Deut.1.1-34.12)
+
+## Deuteronomy (Deut.1.1-34.12)
 The Book of Deuteronomy Purpose To reiterate and expand on the covenant prior to Moses’ death and the people’s entry into the Promised Land Author Moses, according to tradition Date Likely either 1406  BC  or 1230  BC Setting The Israelites are on the verge of entering the Promised Land, and Moses is nearing the end of his life
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Joshua (Josh.1.1-24.33)
+
+## Joshua (Josh.1.1-24.33)
 The Book of Joshua Purpose To recount Israel’s conquest of the Promised Land Author Unknown Date Records events that likely occurred in either 1406–1376  BC  or 1230–1200  BC Setting Begins with the Israelites about to cross the Jordan and ends with their new land having been distributed
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Judges (Judg.1.1-21.25)
+
+## Judges (Judg.1.1-21.25)
 The Book of Judges Purpose To describe the period of the judges and to present a case for an Israelite monarchy Author Unknown Date Records events that occurred in either 1376–1050  BC  or 1200–1050  BC Setting Israel was failing to fully conquer the Promised Land and faced repeated oppression from enemies
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Ruth (Ruth.1.1-4.22)
+
+## Ruth (Ruth.1.1-4.22)
 The Book of Ruth Purpose To tell the inspiring story of Ruth and to trace the background of King David Author Unknown Date Records events that occurred around 1100  BC Setting The period of the judges, during and immediately after a famine that had struck Bethlehem
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Samuel (1Sam.1.1-31.13)
+
+## 1 Samuel (1Sam.1.1-31.13)
 The First Book of Samuel Purpose To recount the establishment of the Israelite monarchy and to highlight the differing character of Israel’s first two kings Author Unknown Date Records events that occurred around 1050–1011  BC Setting The transition from the period of the judges to the Israelite monarchy
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Samuel (2Sam.1.1-24.25)
+
+## 2 Samuel (2Sam.1.1-24.25)
 The Second Book of Samuel Purpose To describe the reign of David and to demonstrate God’s commitment to David’s line Author Unknown Date Records events that occurred around 1011–971  BC Setting Following Saul’s death, David sought to establish his throne over all Israel and to expand Israelite territory
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Kings (1Kgs.1.1-22.53)
+
+## 1 Kings (1Kgs.1.1-22.53)
 The First Book of Kings Purpose To outline the glory of Solomon’s reign, the division of the kingdom, and the degradation of Israel Author Unknown Date Records events that occurred around 973–853  BC Setting Begins at the high point of the Israelite monarchy (Solomon’s reign) and ends with a divided kingdom and a low point in the Israelite monarchy (Ahab’s reign)
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Kings (2Kgs.1.1-25.30)
+
+## 2 Kings (2Kgs.1.1-25.30)
 The Second Book of Kings Purpose To clarify why both Israel and Judah were experiencing exile from the Promised Land Author Unknown Date Records events that occurred around 853–586  BC Setting Continues the story from 1 Kings of the divided kingdom, ending with both kingdoms experiencing exile
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Chronicles (1Chr.1.1-29.30)
+
+## 1 Chronicles (1Chr.1.1-29.30)
 The First Book of Chronicles Purpose To instill hope—largely by appeal to the Davidic promise—among Jews who had returned to their land but were living in subjugation Author Unknown Date Likely written around 400  BC , largely recording events that occurred around 1011–971  BC Setting Judea had been resettled by Jews following the Exile, but these Jews were still living under foreign (Persian) rule; the account essentially traces the reign of David
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Chronicles (2Chr.1.1-36.23)
+
+## 2 Chronicles (2Chr.1.1-36.23)
 The Second Book of Chronicles Purpose To give readers hope for a restored kingdom of Israel characterized by proper worship Author Unknown Date Likely written around 400  BC , recording events that occurred around 971–538  BC Setting Postexilic Judea during Persian rule; the account begins with the reign of Solomon and ends with Cyrus’s proclamation allowing the people to return to Judea
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Ezra (Ezra.1.1-10.44)
+
+## Ezra (Ezra.1.1-10.44)
 The Book of Ezra Purpose To demonstrate God’s continued provision for his people and to show how to live when faced with foreign control, opposition, and pagan influence Author Ezra, according to tradition Date Records events that occurred around 538–457  BC Setting Jerusalem, beginning with the initial return of Jews from exile and ending with Ezra’s arrival there
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Nehemiah (Neh.1.1-13.31)
+
+## Nehemiah (Neh.1.1-13.31)
 The Book of Nehemiah Purpose To recount the reconstruction of Jerusalem’s walls and to demonstrate God’s faithfulness to those dedicated to him Author Ezra, according to tradition Date Records events that occurred around 445–430  BC Setting Jerusalem, approximately fifteen years after Ezra had arrived
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Esther (Esth.1.1-10.3)
+
+## Esther (Esth.1.1-10.3)
 The Book of Esther Purpose To demonstrate God’s providential care of his people and to trace the origin of the Festivalfeast of Purim Author Unknown Date Records events that occurred around 483–473  BC Setting The Persian capital, Susa, during the reign of Xerxes, after a number of Jews had returned to Judea
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Job (Job.1.1-42.17)
+
+## Job (Job.1.1-42.17)
 The Book of Job Purpose To offer reflection on the issue of human suffering, primarily by questioning the oft-held connection between moral goodness and prosperity Author Unknown Date Unknown Setting The patriarchal period, possibly in the land of Edom
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Psalms (Ps.1.1-150.6)
+
+## Psalms (Ps.1.1-150.6)
 The Book of Psalms Purpose To offer praise and prayer to God, to supply God’s people with texts for worship, and to provide reflection on the sovereignty of God and some of life’s toughest questions Author Various; nearly half are linked with David Date Written over the course of many centuries; the process of collecting and editing was likely completed after the Babylonian exile Setting Varied, but a postexilic setting accounts for much of the editorial activity and grouping of the psalms
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Proverbs (Pr.1.1-31.31)
+
+## Proverbs (Pr.1.1-31.31)
 The Book of Proverbs Purpose To offer practical wisdom for making decisions and ordering life Author Various; many are attributed to Solomon Date Written and compiled over the course of several centuries, beginning during Solomon’s reign (971–931  BC ) and continuing until at least the reign of Hezekiah (728–686  BC ) Setting Part is directed to a young man; other parts hint at diverse settings
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Ecclesiastes (Eccl.1.1-12.14)
+
+## Ecclesiastes (Eccl.1.1-12.14)
 The Book of Ecclesiastes Purpose To reflect on the meaning and enjoyment of life Author Solomon Date Around 971–931  BC Setting The overwhelmingly prosperous—but apparently unsatisfying—reign of King Solomon
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Song of Songs (Song.1.1-8.14)
+
+## Song of Songs (Song.1.1-8.14)
 The Book of Song of Songs Purpose To celebrate God’s gifts of love and sexuality Author Solomon; other possible contributors Date Unknown, but after 971  BC Setting The book is associated with Solomon’s reign, but its lack of clear plotline discredits any strong identification of setting
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Isaiah (Isa.1.1-66.24)
+
+## Isaiah (Isa.1.1-66.24)
 The Book of Isaiah Purpose To warn Judah of impending judgment and to offer hope concerning a remnant of God’s people Author Isaiah Date Around 740–685  BC Setting The southern kingdom of Judah, around the time of Assyria’s conquest of the northern kingdom of Israel
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Jeremiah (Jer.1.1-52.34)
+
+## Jeremiah (Jer.1.1-52.34)
 The Book of Jeremiah Purpose To warn Judah of coming destruction, outline the reasons for God’s judgment, and encourage renewed devotion to the Lord Author Content stems from Jeremiah; possibly written down by Baruch Date Around 627–580  BC Setting The final years of the kingdom of Judah, the invasion and destruction of Jerusalem by the Babylonians, and the initial years of Judah’s exile
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Lamentations (Lam.1.1-5.22)
+
+## Lamentations (Lam.1.1-5.22)
 The Book of Lamentations Purpose To express deep sorrow over the destruction of Jerusalem and to offer a glimmer of hope to God’s people Author Likely Jeremiah Date Around 586  BC Setting The aftermath of the Babylonian invasion, the destruction of Jerusalem, and the exile of the people of Judah
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Ezekiel (Ezek.1.1-48.35)
+
+## Ezekiel (Ezek.1.1-48.35)
 The Book of Ezekiel Purpose To pronounce the impending judgment on Judah and to offer hope following Jerusalem’s destruction Author Ezekiel Date Around 593–571  BC Setting Exile in Babylon, immediately before, during, and after the destruction of Jerusalem
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Daniel (Dan.1.1-12.13)
+
+## Daniel (Dan.1.1-12.13)
 The Book of Daniel Purpose To demonstrate God’s sovereignty over all, including powers apathetic or antagonistic toward him Author Likely Daniel Date Around 605–535  BC Setting Babylon, beginning with the first wave of exiles from Judah and ending around the time of Cyrus’s decree allowing Jews to return home
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Hosea (Hos.1.1-14.9)
+
+## Hosea (Hos.1.1-14.9)
 The Book of Hosea Purpose To depict Israel’s unfaithfulness and ensuing judgment, and to show God’s desire to heal and restore his people Author Hosea Date Around 760–722  BC Setting The northern kingdom of Israel, in the days leading up to its destruction at the hands of Assyria
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Joel (Joel.1.1-3.21)
+
+## Joel (Joel.1.1-3.21)
 The Book of Joel Purpose To display God’s sovereignty and judgment, to spur readers to repentance, and to promise restoration Author Joel Date Unknown Setting The land of Judah, during a catastrophic locust plague (interpreted variously as literal or figurative)
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Amos (Amos.1.1-9.15)
+
+## Amos (Amos.1.1-9.15)
 The Book of Amos Purpose To confront the northern kingdom’s apostasy and oppression of the marginalized Author Amos Date Around 755  BC Setting The shrine at Bethel in the northern kingdom, during the reign of Jeroboam II
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Obadiah (Obad.1.1-21)
+
+## Obadiah (Obad.1.1-21)
 The Book of Obadiah Purpose To announce God’s judgment on Edom, who had rejoiced at and participated in Judah’s destruction Author Obadiah Date Around 586  BC Setting Probably very soon after the destruction of Jerusalem by the Babylonians
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Jonah (Jon.1.1-4.11)
+
+## Jonah (Jon.1.1-4.11)
 The Book of Jonah Purpose To recount a story of the far-reaching scope of God’s sovereignty and salvation Author Unknown Date Around 755  BC Setting A time when Assyria’s influence in Israel had temporarily decreased, likely during the reign of Jeroboam II
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Micah (Mic.1.1-7.20)
+
+## Micah (Mic.1.1-7.20)
 The Book of Micah Purpose To proclaim judgment against Samaria and Jerusalem, but also to offer a strong message of hope for Israel’s future Author Micah Date Around 735–686  BC Setting The northern kingdom of Israel shortly before its destruction and the southern kingdom of Judah during the reigns of Jotham, Ahaz, and Hezekiah
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Nahum (Nah.1.1-3.19)
+
+## Nahum (Nah.1.1-3.19)
 The Book of Nahum Purpose To announce God’s coming judgment on Nineveh, the Assyrian capital, thus offering hope to the people of Judah Author Nahum Date Sometime between 663 and 612  BC Setting The Assyrian Empire had conquered the northern kingdom of Israel, and now the southern kingdom of Judah was in danger of facing the same fate
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Habakkuk (Hab.1.1-3.19)
+
+## Habakkuk (Hab.1.1-3.19)
 The Book of Habakkuk Purpose To address some difficult questions about God’s purposes and the presence of evil in the world Author Habakkuk Date Likely between 645 and 605  BC Setting The final years of the independent kingdom of Judah, when Assyrian power was weakening but Babylonian power was increasing
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Zephaniah (Zeph.1.1-3.20)
+
+## Zephaniah (Zeph.1.1-3.20)
 The Book of Zephaniah Purpose To warn of the coming “day of the  Lord ” and to urge repentance Author Zephaniah Date Likely between 635 and 622  BC Setting Near the beginning of King Josiah’s reign in Judah, before his religious reforms
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Haggai (Hagg.1.1-2.23)
+
+## Haggai (Hagg.1.1-2.23)
 The Book of Haggai Purpose To encourage the Jews to resume Temple reconstruction and to promote spiritual renewal Author Haggai Date 520  BC Setting Jerusalem, almost twenty years after Cyrus had allowed the Jews to return and rebuild the Temple
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Zechariah (Zech.1.1-14.21)
+
+## Zechariah (Zech.1.1-14.21)
 The Book of Zechariah Purpose To foster spiritual renewal and to announce a grand future for the people of God Author Zechariah Date Likely between 520 and 470  BC Setting Jerusalem, a couple of decades after a remnant of Jews had returned from exile
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Malachi (Mal.1.1-4.6)
+
+## Malachi (Mal.1.1-4.6)
 The Book of Malachi Purpose To reorient the people to proper conduct in relationships and worship Author Malachi Date Likely sometime in the 400s  BC Setting Postexilic Judea, during Persian control, after the Temple had been rebuilt
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Matthew (Matt.1.1-28.20)
+
+## Matthew (Matt.1.1-28.20)
 The Gospel of Matthew Purpose To demonstrate that Jesus is the Messiah and to help Christians understand how to live in relation to Judaism Author Matthew (also known as Levi), one of the twelve apostles of Jesus Date Likely sometime between  AD  65 and 80 Setting Written at a time in which early Christians were struggling to make sense of the relationship of their new beliefs to the Jewish faith
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Mark (Mark.1.1-16.20)
+
+## Mark (Mark.1.1-16.20)
 The Gospel of Mark Purpose To relay the Good News about Jesus, who is the Messiah and Son of God Author John Mark, who according to early tradition put in writing the recollections of the apostle Peter Date Likely written sometime during the late 60s  AD Setting Written at a time in which Christians in the Roman world were facing persecution—necessitating that the gospel traditions begin to be written down—and Jerusalem’s destruction was imminent
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Luke (Luke.1.1-24.53)
+
+## Luke (Luke.1.1-24.53)
 The Gospel of Luke Purpose To write a reliable historical account of the life of Jesus that would confirm the truth of the Christian message Author Luke, a physician and occasional companion of the apostle Paul Date Either around  AD  59–63, during Paul’s imprisonment in Rome, or between  AD  70–90, using the Gospel of Mark as a source Setting Written during a time of increasing tension between Jews and Christians, in which Luke sought to demonstrate that those—both Jew and Gentile—who believed that Jesus was the Messiah made up the new people of God
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## John (John.1.1-21.25)
+
+## John (John.1.1-21.25)
 The Gospel of John Purpose To generate belief in Jesus as Messiah and Son of God and to connect this belief with eternal life Author Likely the “beloved disciple,” traditionally identified as John, son of Zebedee Date Around  AD  90 Setting Written toward the end of John’s life during a time when the early followers of Jesus were facing strife from local synagogues
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Acts (Acts.1.1-28.31)
+
+## Acts (Acts.1.1-28.31)
 The Book of Acts Purpose To describe the spread of the Good News of Jesus Christ and the birth of the church from Jerusalem throughout the Roman world Author Luke, a physician and occasional companion of the apostle Paul Date Likely between the early 60s  AD  and the mid-80s  AD . The events recorded in Acts end in the early 60s, but a commonly held view suggests that it was written later, presuming that Luke’s Gospel used the Gospel of Mark—likely written in the late 60s—as a source Setting Written during a time when the Good News of Jesus had spread throughout the Mediterranean world and it had become evident that God’s salvation extended to both Jews and Gentiles
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Romans (Rom.1.1-16.27)
+
+## Romans (Rom.1.1-16.27)
 Paul’s Letter to the Romans Purpose To outline the Good News and to address the theological and social divisions that had arisen in a church comprised of both Jews and Gentiles Author Paul Date Likely around  AD  57, near the end of his third missionary journey Setting Written—probably in Corinth—toward the end of Paul’s missionary activity, when he was making plans to visit the church in Rome on his way to Spain, after delivering a gift to the Jerusalem church
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Corinthians (1Cor.1.1-16.24)
+
+## 1 Corinthians (1Cor.1.1-16.24)
 Paul’s First Letter to the Corinthians Purpose To clarify some questions the Corinthian church had raised and to address a series of specific problems that had arisen in the church there Author Paul Date AD  53–56 Setting Written from Ephesus during Paul’s third missionary journey, in response to reports and questions he had received from the church in Corinth (see  1 Cor 1:11 ;  5:1 ;  7:1 ;  8:1 ;  12:1 ;  16:1 )
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Corinthians (2Cor.1.1-13.14)
+
+## 2 Corinthians (2Cor.1.1-13.14)
 Paul’s Second Letter to the Corinthians Purpose To defend Paul’s apostolic authority and to squelch the influence of false teachers Author Paul Date Around  AD  56 Setting Written after Paul received a positive report from Titus about the Corinthian church’s repentance, which had followed from a previous letter (now lost) that Paul had sent to them (see  2 Cor 7:5-9 )
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Galatians (Gal.1.1-6.18)
+
+## Galatians (Gal.1.1-6.18)
 Paul’s Letter to the Galatians Purpose To persuade the Gentile Christians in Galatia—against opposition from certain Jewish Christians—that it is unnecessary to be circumcised and to adopt other practices from Jewish law in order to be part of God’s people Author Paul Date Likely  AD  48 or 49, just prior to the Jerusalem council Setting Written after a group of Jewish Christians had infiltrated the Galatian church communities, teaching on the necessity of practicing circumcision
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Ephesians (Eph.1.1-6.24)
+
+## Ephesians (Eph.1.1-6.24)
 Paul’s Letter to the Ephesians Purpose To outline the scope of God’s grace, encourage unity among Jewish and Gentile believers, and demonstrate what new life in Christ looks like Author Paul Date Traditionally,  AD  60–62, but possibly earlier, around  AD  53–56 Setting Written while Paul was in prison, probably either in Rome or Ephesus, after the Good News had spread throughout Asia Minor and the believers in that region needed further instruction regarding the implications of their new faith
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Philippians (Phil.1.1-4.23)
+
+## Philippians (Phil.1.1-4.23)
 Paul’s Letter to the Philippians Purpose To thank the Philippians for their recent gift and to encourage them to experience joy and contentment in the midst of their suffering Author Paul Date Traditionally,  AD  60–62, but possibly earlier, around  AD  53–56 Setting Written while Paul was in prison and while the church at Philippi—which had recently sent Paul a financial gift—was also undergoing persecution
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Colossians (Col.1.1-4.18)
+
+## Colossians (Col.1.1-4.18)
 Paul’s Letter to the Colossians Purpose To combat false teaching at Colosse by emphasizing the supremacy of Christ and by insisting that true spiritual growth and ethical living stem from him Author Paul Date Traditionally,  AD  60–62, but possibly earlier, around  AD  53–56 Setting Written while Paul was in prison, after he had heard—presumably from Epaphras—about the false teaching that had arisen in the church at Colosse
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Thessalonians (1Thes.1.1-5.28)
+
+## 1 Thessalonians (1Thes.1.1-5.28)
 Paul’s First Letter to the Thessalonians Purpose To express thanksgiving for the faith of the Thessalonian believers and to give them further instruction about Christian behavior and the Lord’s return Author Paul, with Silas and Timothy Date Around  AD  50 Setting Written while Paul was in Corinth, after he had received a positive report from Timothy about the church in Thessalonica
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Thessalonians (2Thes.1.1-3.18)
+
+## 2 Thessalonians (2Thes.1.1-3.18)
 Paul’s Second Letter to the Thessalonians Purpose To instill hope in the midst of persecution and to address false teaching and idleness in the community Author Paul, with Silas and Timothy Date Around  AD  51 Setting Written soon after 1 Thessalonians, after persecution had increased in Thessalonica and false teaching had emerged
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Timothy (1Tim.1.1-6.21)
+
+## 1 Timothy (1Tim.1.1-6.21)
 Paul’s First Letter to Timothy Purpose To provide guidance to Timothy for addressing false teaching and instructing the church on proper conduct Author Paul Date Likely around  AD  63 Setting Written near the end of Paul’s life, after Paul had sent Timothy to Ephesus to halt false teaching in the church
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Timothy (2Tim.1.1-4.22)
+
+## 2 Timothy (2Tim.1.1-4.22)
 Paul’s Second Letter to Timothy Purpose To commission Timothy to continue the work Paul had begun and to encourage Timothy to endure suffering Author Paul Date Likely around  AD  64 Setting Probably written during Paul’s second imprisonment in Rome, shortly before his death—which he understood to be imminent
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Titus (Titus.1.1-3.15)
+
+## Titus (Titus.1.1-3.15)
 Paul’s Letter to Titus Purpose To give Titus instruction on the establishment of church leaders on Crete and to promote proper conduct among the believers there Author Paul Date Likely around  AD  63 Setting Written near the end of Paul’s life, while Titus was on the island of Crete, a place known for its degenerate culture
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Philemon (Phlm.1.1-25)
+
+## Philemon (Phlm.1.1-25)
 Paul’s Letter to Philemon Purpose To encourage Philemon to welcome back his slave Onesimus, who had become a believer Author Paul Date Traditionally,  AD  60–62, but possibly earlier, around  AD  53–56 Setting Written while Paul was in prison, after he had encountered Onesimus, who was seemingly a runaway slave of Philemon, a Christian leader in Colosse
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Hebrews (Heb.1.1-13.25)
+
+## Hebrews (Heb.1.1-13.25)
 The Letter to the Hebrews Purpose To encourage perseverance in the face of suffering, primarily by highlighting the superiority of Christ and the sufficiency of his work Author Unknown Date Most likely the early 60s  AD , but a date after  AD  70 is also possible Setting Written to a group of Christians—likely in Rome—who were facing persecution and struggling to maintain their faith
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## James (Jas.1.1-5.20)
+
+## James (Jas.1.1-5.20)
 The Letter of James Purpose To share practical wisdom and to challenge readers to maintain their faith—a faith that is active and other-focused Author James, brother of Jesus Date Around  AD  46 Setting Written—presumably from Jerusalem—to Jewish believers who had scattered following the persecution which began with the martyrdom of Stephen
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 Peter (1Pet.1.1-5.14)
+
+## 1 Peter (1Pet.1.1-5.14)
 The First Letter of Peter Purpose To encourage believers who were suffering to maintain a life of holiness and thereby bear witness to Christ Author Peter Date Early 60s  AD Setting Written toward the end of Peter’s life to believers in northern Asia Minor who were experiencing persecution
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 Peter (2Pet.1.1-3.18)
+
+## 2 Peter (2Pet.1.1-3.18)
 The Second Letter of Peter Purpose To denounce false teachers and to encourage continued growth in the faith Author Peter Date Early 60s  AD Setting Written to the same groups of believers addressed in 1 Peter, whose communities were being infiltrated by false teachers
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 1 John (1Jn.1.1-5.21)
+
+## 1 John (1Jn.1.1-5.21)
 The First Letter of John Purpose To affirm correct belief concerning Jesus Christ, to exhort believers to love one another, and to provide assurance about eternal life Author Likely the apostle John Date Around  AD  85–90 Setting Written to a community that had recently experienced a schism due to the emergence of a heretical faction
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 2 John (2Jn.1.1-13)
+
+## 2 John (2Jn.1.1-13)
 The Second Letter of John Purpose To outline the appropriate response to false teachers and to encourage believers to love one another Author Likely the apostle John Date Around  AD  85–90 Setting Written to a community of believers—probably in Asia Minor—who had either already encountered false teachers or were likely to do so soon
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## 3 John (3Jn.1.1-15)
+
+## 3 John (3Jn.1.1-15)
 The Third Letter of John Purpose To commend Gaius for his hospitality to the apostle’s emissaries and to reprove Diotrephes Author Likely the apostle John Date Around  AD  85–90 Setting Written to an individual named Gaius, in response to his hospitality and to the lack thereof by a man named Diotrephes
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Jude (Jude.1.1-25)
+
+## Jude (Jude.1.1-25)
 The Letter of Jude Purpose To urge readers to defend their faith in the face of false teaching Author Jude, brother of Jesus Date Unknown, possibly around the same time as 2 Peter (early 60s  AD ) Setting Written to a group of churches that had been infiltrated by false teachers who encouraged an immoral lifestyle
 
 
 
-System ID: /Users/ryderwishart/biblical-machine-learning/data/tyndale-resources/Tyndale Open Study Notes/BookIntroSummaries.xml
-Description: ## Revelation (Rev.1.1-22.21)
+
+## Revelation (Rev.1.1-22.21)
 The Book of Revelation Purpose To challenge readers to remain faithful in the midst of persecution by pointing them to God’s victory over evil and to their future hope Author John (likely the apostle) Date Most likely the  AD  90s, but possibly the  AD  60s Setting Written to a group of churches in Asia who were experiencing persecution at the hands of the Roman Empire
 
 
