@@ -1,0 +1,19 @@
+CONTENTS.txt
+
+Tyndale Open Study Notes is a collection of basic Bible content originally designed as a study Bible. In this package you will find five files representing five types of feature content.
+
+StudyNotes.xml
+This file contains verse-by-verse notes written to address key historical and theological issues that arise in the Bible text. This content is the bedrock of a study Bible and provides a solid foundation for understanding the text.
+
+BookIntroSummaries.xml
+This file contains some key background information about each book in the Bible: purpose, author, date, setting. 
+
+BookIntros.xml
+This file contains more in-depth background information on each book of the Bible. Lengthier than the summaries, it contains discussion of those key pieces of information and often more, including literary structure, theology, etc.
+
+Profiles.xml
+This file contains 124 articles on people who appear in the Bible along with a list of key Scripture references where they appear for additional study.
+
+ThemeArticles.xml
+This file contains 299 articles on key biblical or theological themes that come up in the text, providing deeper understanding on those key topics along with a list of key Scripture references where the theme appears for additional study.
+

@@ -1,0 +1,20 @@
+CONTENTS.txt
+
+The Tyndale Open Bible Dictionary is a comprehensive Bible dictionary, including articles for each book of the Bible and all the significant people, places, and terms found therein. In addition, it contains articles on the cultural context of scripture and on important theological terms. In this package you will find five directories representing five types of feature content.
+
+Articles
+These files contain in-depth articles on over 6,000 topics.
+
+Maps
+These files contain 80 maps of locations mentioned in the Bible.
+
+Textboxes
+These files contain over 100 short excurses that supplement key articles.
+
+Charts
+These files contain several illustrative charts in tabular format.
+
+Pictures
+These files contain references to over 200 photographs and drawings from the Tyndale Bible Dictionary. In order to preserve the rights of the owners of these images, we are unable to include the images themselves in the Tyndale Open Bible Dictionary.
+
+The articles contain markup that indicates where supplemental features (Maps, Textboxes, Charts, and Pictures) could be inserted or linked. These pointers give a relative path to the supplemental feature.
