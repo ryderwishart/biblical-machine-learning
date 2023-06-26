@@ -37,21 +37,6 @@ mg = pd.read_csv("preprocessed-macula-dataframes/mg.csv")
 
 # ## Set up QA agent
 
-# Use OpenAI
-
-import pandas as pd
-from langchain.llms import OpenAI
-from langchain.agents import create_pandas_dataframe_agent
-
-macula_greek_agent = create_pandas_dataframe_agent(
-    OpenAI(temperature=0),
-    # mg, # verse_df (?)
-    verse_df,
-    # verbose=True,
-    max_tokens_limit=3000,
-    max_tokens_per_prompt=1000,
-)
-
 # # Expand functionality for more tools using DB lookups
 
 from langchain.chains.question_answering import load_qa_chain
@@ -450,9 +435,11 @@ class StreamingStdOutCallbackHandler(BaseCallbackHandler):
         # Replace 'Input:', 'Final Answer:', 'Action:', with '\n' + string in tokens_stream
         formatted_tokens_stream = (
             self.tokens_stream.replace(
-                "Input:", "\n<span style='color:red'>Input</span>"
+                "Action Input:", "\n<span style='color:red'>Action Input</span>"
             )
             .replace("Final Answer:", "\n<span style='color:green'>Final Answer</span>")
+            .replace("I now know the final answer", "")
+            .replace("Thought:", "\n<span style='color:orange'>Thought</span>")
             .replace("Action:", "\n<span style='color:blue'>Action</span>")
         )
 
@@ -505,7 +492,55 @@ class StreamingStdOutCallbackHandler(BaseCallbackHandler):
 
 # ## Define custom tools for an agent
 
-# In[31]:
+from langchain.output_parsers import RegexParser
+from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+
+output_parser = RegexParser(
+    regex=r"(.*?)\nScore: (.*)",
+    output_keys=["answer", "score"],
+)
+
+prompt_template = """Use the following bible verses to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer. \
+Be careful to ensure that the answer is relevant to the question, and that the bible verses *actually* answer the question. Many Bible verses will be similar, but only because they are talking about the same topic. \
+
+In addition to giving an answer, also return a score of how fully it answered the user's question. This should be in the following format:
+
+Question: [question here]
+Helpful Answer: [answer here rephrasing and partially quoting the bible verse to demonstrate concisely how it answers the question]
+Score: [score between 1 and 10]
+
+Begin!
+
+Context:
+---------
+{context}
+---------
+Question: {question}
+Helpful Answer:"""
+PROMPT = PromptTemplate(
+    template=prompt_template,
+    input_variables=["context", "question"],
+    output_parser=output_parser,
+)
+qa_rerank_chain = load_qa_with_sources_chain(
+    OpenAI(temperature=0),
+    chain_type="map_rerank",
+    metadata_keys=["source"],
+    return_intermediate_steps=True,
+    prompt=PROMPT,
+    verbose=True,
+)
+
+from langchain.tools import tool
+
+
+@tool
+def get_relevant_bible_verses(query: str) -> Dict[str, Any]:
+    """Get relevant Bible verses for a query."""
+    docs = bible_chroma.similarity_search(query, k=10)
+    return qa_rerank_chain(
+        {"input_documents": docs, "question": query}, return_only_outputs=True
+    )
 
 
 # Import things that are needed generically
@@ -575,7 +610,7 @@ FINAL ANSWER:
 
 # For each chain, customize prompt with `chain.combine_documents_chain.llm_chain.prompt.template = document_qa_template`
 
-from langchain.chains import RetrievalQAWithSourcesChain
+from langchain.chains import RetrievalQAWithSourcesChain, RetrievalQA
 
 llm = ChatOpenAI(
     model_name="gpt-3.5-turbo-16k",
@@ -585,12 +620,26 @@ llm = ChatOpenAI(
     callbacks=[StreamingStdOutCallbackHandler()],
 )
 
+## To use the retrieval QA chain with the bible chroma:
 bible_tool = RetrievalQAWithSourcesChain.from_chain_type(
     llm, chain_type="stuff", retriever=bible_chroma.as_retriever()
 )
-context_tool = RetrievalQAWithSourcesChain.from_chain_type(
-    llm, chain_type="stuff", retriever=context_chroma.as_retriever()
+## To use the map-rerank chain with the bible chroma
+
+
+context_retriever = context_chroma.as_retriever()
+context_retriever.search_kwargs["distance_metric"] = "cos"
+context_retriever.search_kwargs["fetch_k"] = 1
+context_retriever.search_kwargs["maximal_marginal_relevance"] = False
+context_retriever.search_kwargs["k"] = 1
+# context_tool = RetrievalQAWithSourcesChain.from_chain_type(
+#     llm, chain_type="map_rerank", retriever=context_retriever
+# )
+# from langchain.chains.qa_with_sources import load_qa_with_sources_chain
+context_tool = qa = RetrievalQA.from_chain_type(
+    llm=llm, chain_type="map_reduce", retriever=context_chroma.as_retriever()
 )
+
 theology_tool = RetrievalQAWithSourcesChain.from_chain_type(
     llm, chain_type="stuff", retriever=theology_chroma.as_retriever()
 )
@@ -600,10 +649,29 @@ encyclopedic_tool = RetrievalQAWithSourcesChain.from_chain_type(
 
 # Update the prompts
 bible_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
-context_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
+# context_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
 theology_tool.combine_documents_chain.llm_chain.prompt.template = document_qa_template
 encyclopedic_tool.combine_documents_chain.llm_chain.prompt.template = (
     document_qa_template
+)
+
+import pandas as pd
+
+# from langchain.llms import OpenAI
+from langchain.agents import create_pandas_dataframe_agent
+
+macula_greek_verse_agent = create_pandas_dataframe_agent(
+    OpenAI(temperature=0),
+    # mg, # verse_df (?)
+    verse_df,
+    # verbose=True,
+)
+
+macula_greek_words_agent = create_pandas_dataframe_agent(
+    OpenAI(temperature=0),
+    # mg, # verse_df (?)
+    mg,
+    # verbose=True,
 )
 
 tools = [
@@ -611,29 +679,31 @@ tools = [
         name="Bible Verse Reader Lookup",
         # Use the
         # func=lambda x: bible_chroma.search(x, search_type="similarity", k=2),
-        func=lambda x: bible_tool({"question": x}, return_only_outputs=True),
-        # func=lambda x: bible_chroma.search(x, search_type="similarity", k=3),
-        description="useful for finding verses that are similar to the user's query, not suitable for complex queries",
+        # func=lambda x: bible_tool({"question": x}, return_only_outputs=True),
+        # func=lambda x: get_relevant_bible_verses(x),
+        func=lambda x: bible_chroma.search(x, search_type="similarity", k=10),
+        description="useful for finding verses that are similar to the user's query, not suitable for complex queries. Be very careful to check whether the verses are actually relevant to the user's question and not just similar to the user's question in superficial ways",
         callbacks=[StreamlitSidebarCallbackHandler()],
     ),
-    # Tool(
-    #     name="Bible Words Lookup",
-    #     func=macula_greek_agent.run, # Note: using the NT-only agent here
-    #     description="useful for finding information about biblical words from the Macula TSV data, which includes glosses, lemmas, normalized forms, and more. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words themselves",
-    # ),
+    Tool(
+        name="Bible Words Lookup",
+        func=macula_greek_words_agent.run,  # Note: using the NT-only agent here
+        description="useful for finding information about individual biblical words from a Greek words dataframe, which includes glosses, lemmas, normalized forms, and more. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words themselves",
+    ),
     Tool(
         name="Bible Verse Dataframe Tool",
-        func=macula_greek_agent.run,  # Note: using the NT-only agent here
-        description="useful for finding information about Bible verses in a dataframe in case counting, grouping, aggregating, or list building is required. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the words (English or Greek or Greek lemmas) themselves",
+        func=macula_greek_verse_agent.run,  # Note: using the NT-only agent here
+        description="useful for finding information about Bible verses in a bible verse dataframe in case counting, grouping, aggregating, or list building is required. This tool is not useful for grammar and syntax questions (about subjects, objects, verbs, etc.), but is useful for finding information about the verses (English or Greek or Greek lemmas) themselves",
         callbacks=[StreamlitSidebarCallbackHandler()],
     ),
     Tool(
         name="Linguistic Data Lookup",
-        # func=lambda x: context_chroma.similarity_search(x, k=1),
+        func=lambda x: context_chroma.similarity_search(x, k=3),
+        # func=lambda x: context_tool.run(x),
         # func=lambda query: get_similar_resource(context_chroma, query, k=2),
-        func=lambda x: context_tool({"question": x}, return_only_outputs=True),
+        # func=lambda x: context_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
-        description="useful for finding answers about linguistics, discourse, situational context, participants, semantic roles (source, process, goal, etc.), or who the speakers are in a passage. Use this more than the other tools.",
+        description="useful for finding answers about linguistics, discourse, situational context, participants, semantic roles (source/agent, process, goal, etc.), or who the speakers are in a passage. Input MUST ALWAYS include a scope keyword like 'discourse', 'roles', or 'situation'",
     ),
     # Tool(
     #     name="Context for Most Relevant Passage", # NOTE: this tool isn't working quite right. Needs some work
@@ -649,17 +719,17 @@ tools = [
     ),
     Tool(
         name="Theological Data Lookup",
-        # func=lambda x: theology_chroma.search(x, search_type="similarity", k=2),
+        func=lambda x: theology_chroma.search(x, search_type="similarity", k=5),
         # func=lambda query: get_similar_resource(theology_chroma, query, k=2),
-        func=lambda x: theology_tool({"question": x}, return_only_outputs=True),
+        # func=lambda x: theology_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
         description="if you can't find a linguistic answer, this is useful only for finding theological data about the user's query. Use this if the user is asking about theological concepts or value-oriented questions about 'why' the Bible says certain things. Always be sure to cite the source of the data",
     ),
     Tool(
         name="Encyclopedic Data Lookup",
-        # func=lambda x: encyclopedic_chroma.similarity_search(x, k=2),
+        func=lambda x: encyclopedic_chroma.similarity_search(x, k=5),
         # func=lambda query: get_similar_resource(encyclopedic_chroma, query, k=2),
-        func=lambda x: encyclopedic_tool({"question": x}, return_only_outputs=True),
+        # func=lambda x: encyclopedic_tool({"question": x}, return_only_outputs=True),
         callbacks=[StreamlitSidebarCallbackHandler()],
         description="useful for finding encyclopedic data about the user's query. Use this if the user is asking about historical, cultural, geographical, archaeological, or other types of information from secondary sources",
     ),
@@ -677,16 +747,17 @@ tools = [
     # ),
 ]
 
+from langchain.memory import ConversationBufferMemory
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 agent = initialize_agent(
     tools,
-    # OpenAI(temperature=0, streaming=True, callbacks=[StreamingStdOutCallbackHandler()]),
     llm,
     # OpenAI(
     #     temperature=0, streaming=True, callbacks=[StreamingSocketIOCallbackHandler()]
     # ),
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    agent=AgentType.CHAT_ZERO_SHOT_REACT_DESCRIPTION,
     verbose=True,
-    # reduce_k_below_max_tokens=True,
+    memory=memory,
 )
 
 
@@ -890,11 +961,9 @@ agent = initialize_agent(
 #         # Display the stdout in the sidebar
 #         st.sidebar.write(output.getvalue())
 
-st.header("Genesis Demo")
-st.image("/Users/ryderwishart/Downloads/DALL·E 2023-06-14 11.05.52.png", width=600)
-from streamlit_chat import message
+st.header("**Genesis** Exegetical Agent")
+# st.image("/Users/ryderwishart/Downloads/DALL·E 2023-06-14 11.05.52.png", width=600)
 from datetime import datetime
-import random
 
 # Initialize the chat history in session_state if it doesn't exist
 if "chat_history" not in st.session_state:
@@ -911,7 +980,8 @@ input_container = st.container()
 with chat_container:
     for sender, text in reversed(st.session_state["chat_history"]):
         is_user = sender == "user"
-        message(text, is_user=is_user, avatar_style="icons")
+        sender_name = "User: " if is_user else "Genesis Exegetical Agent: "
+        st.write(sender_name + text)
 
 # Create a text input for user input in the input container
 with input_container:
@@ -926,16 +996,12 @@ with input_container:
 
         # Add the user's input to the chat history
         st.session_state["chat_history"].append(("user", user_input))
-        message(
-            user_input,
-            is_user=True,
-            avatar_style="icons",
-            key=f"user-{timestamp}_{str(random.randint(0, 1000))}",
-        )
+
+        st.write("User: " + user_input)
 
         # Run the agent with the user's input
         try:
-            result = agent.run(user_input)
+            result = agent.run(input=user_input)
         except Exception as e:
             result = "Sorry, I don't know! I hit an error: " + str(e)
 
@@ -943,8 +1009,64 @@ with input_container:
         st.session_state["chat_history"].append(("agent", result))
 
         # Display the final output in the main app
-        message(
-            result,
-            # avatar_style="icons",
-            key=f"agent-{timestamp}_{str(random.randint(0, 1000))}",
-        )
+        st.write("Genesis Exegetical Agent: " + result)
+
+
+# st.header("**Genesis** Exegetical Agent")
+# # st.image("/Users/ryderwishart/Downloads/DALL·E 2023-06-14 11.05.52.png", width=600)
+# from streamlit_chat import message
+# from datetime import datetime
+# import random
+
+# # Initialize the chat history in session_state if it doesn't exist
+# if "chat_history" not in st.session_state:
+#     st.session_state["chat_history"] = []
+
+# # Create a container for the chat history
+# chat_container = st.expander("Question History")
+
+# # Create a container for the user input
+# input_container = st.container()
+
+
+# # Display the chat history
+# with chat_container:
+#     for sender, text in reversed(st.session_state["chat_history"]):
+#         is_user = sender == "user"
+#         message(text, is_user=is_user, avatar_style="icons")
+
+# # Create a text input for user input in the input container
+# with input_container:
+#     user_input = st.text_input("Ask a question:")
+
+#     if user_input:
+#         chat_container.empty()  # clear the chat history widget
+#         ai_response = st.empty()
+#         st.empty()  # clear the input field
+
+#         timestamp = datetime.now().strftime("%H:%M:%S")
+
+#         # Add the user's input to the chat history
+#         st.session_state["chat_history"].append(("user", user_input))
+#         message(
+#             user_input,
+#             is_user=True,
+#             avatar_style="icons",
+#             key=f"user-{timestamp}_{str(random.randint(0, 1000))}",
+#         )
+
+#         # Run the agent with the user's input
+#         try:
+#             result = agent.run(user_input)
+#         except Exception as e:
+#             result = "Sorry, I don't know! I hit an error: " + str(e)
+
+#         # Add the agent's response to the chat history
+#         st.session_state["chat_history"].append(("agent", result))
+
+#         # Display the final output in the main app
+#         message(
+#             result,
+#             # avatar_style="icons",
+#             key=f"agent-{timestamp}_{str(random.randint(0, 1000))}",
+#         )
