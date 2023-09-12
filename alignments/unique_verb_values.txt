@@ -1,0 +1,1 @@
+{"AdjectiveDegree": ["No Degree"], "Aspect": ["Imperfective", "Unmarked"], "LexicalSense": ["D", "C", "A"], "Mood": ["Indicative"], "Polarity": ["Affirmative"], "Reflexivity": ["Not Applicable"], "SemanticComplexityLevel": ["1"], "TargetAspect": ["Unspecified"], "TargetMood": ["Unspecified"], "TargetTenseForm": ["Unspecified"], "Time": ["Discourse", "Present"]}

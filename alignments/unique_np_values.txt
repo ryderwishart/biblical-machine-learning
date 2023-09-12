@@ -1,0 +1,1 @@
+{"Implicit": ["Not Applicable"], "Relativized": ["No"], "SemanticRole": ["Addressee", "Destination", "Most Patient-like", "Most Agent-like", "Not Applicable"], "Sequence": ["Not in a Sequence"], "ThingThingRelationship": ["Unspecified"]}

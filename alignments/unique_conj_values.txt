@@ -1,0 +1,1 @@
+{"Implicit": ["No"], "LexicalSense": ["A"], "SemanticComplexityLevel": [1]}

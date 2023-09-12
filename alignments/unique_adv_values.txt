@@ -1,0 +1,1 @@
+{"Degree": ["", "'too'", "Comparative", "No Degree", "Extremely Intensified", "Intensified"], "LexicalSense": ["C", "B", "A"], "SemanticComplexityLevel": [1]}

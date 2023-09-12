@@ -1,0 +1,1 @@
+{"LexicalSense": ["A", "E"], "SemanticComplexityLevel": [1]}

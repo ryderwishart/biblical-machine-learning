@@ -1,0 +1,1 @@
+{"Implicit": ["", "Yes", "No"], "Sequence": ["", "First Coordinate", "Not in a Sequence", "Last Coordinate"]}
