@@ -1,4 +1,4 @@
-'''
+"""
 README
 # Alignment Script
 
@@ -21,15 +21,20 @@ This script performs word alignment between parallel corpora using the IBM-1 mod
    You will then need to change the Naming, FileNameBookNameForm, FileNamePostPart, and BooksPresent tags.
 4. The script will perform word alignment using the IBM-1 model and generate alignment visualizations for each segment.
 5. The alignment visualizations will be saved as PNG images in the `alignments` directory.
-'''
+"""
 from machine.corpora import ParatextTextCorpus
 from machine.tokenization import LatinWordTokenizer
-from machine.translation import word_align_corpus
-from machine.translation.thot import ThotIbm1WordAlignmentModel
-from machine.translation import SymmetrizationHeuristic
-from machine.translation import SymmetrizedWordAlignmentModelTrainer
-from machine.translation.thot import ThotWordAlignmentModelTrainer, ThotWordAlignmentModelType
-from machine.translation.thot import ThotSymmetrizedWordAlignmentModel
+from machine.translation import (
+    word_align_corpus,
+    SymmetrizationHeuristic,
+    SymmetrizedWordAlignmentModelTrainer,
+)
+from machine.translation.thot import (
+    ThotWordAlignmentModelTrainer,
+    ThotWordAlignmentModelType,
+    ThotIbm1WordAlignmentModel,
+    ThotSymmetrizedWordAlignmentModel,
+)
 import numpy as np
 import pandas as pd
 import os
@@ -40,12 +45,16 @@ import sys
 import matplotlib
 
 # Set up logging to keep track of error handling in both the terminal and for getting help if needed.
-logging.basicConfig(filename='alignment.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    filename="alignment.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 # Create a StreamHandler to display log messages in the terminal
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
-console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 console_handler.setFormatter(console_formatter)
 
 # Get the root logger and add the StreamHandler
@@ -53,53 +62,76 @@ root_logger = logging.getLogger()
 root_logger.addHandler(console_handler)
 
 
-if not os.path.exists('alignments'):
-    os.makedirs('alignments')
-    
-# arguments must be folders that contain a Settings and .SFM file
-parser = argparse.ArgumentParser(description='Generate token alignments')
+if not os.path.exists("alignments"):
+    os.makedirs("alignments")
 
-parser.add_argument('source_folder', metavar='S', type=str, nargs=1, help='A folder path that contains a settings file and language data')
-parser.add_argument('target_folder', metavar='T', type=str, nargs=1, help='A folder path that contains a settings file and language data')
+# arguments must be folders that contain a Settings and .SFM file
+parser = argparse.ArgumentParser(description="Generate token alignments")
+
+parser.add_argument(
+    "source_folder",
+    metavar="S",
+    type=str,
+    nargs=1,
+    help="A folder path that contains a settings file and language data",
+)
+parser.add_argument(
+    "target_folder",
+    metavar="T",
+    type=str,
+    nargs=1,
+    help="A folder path that contains a settings file and language data",
+)
 
 args = parser.parse_args()
 
+
 def validate_folder_paths(s, t):
     if not os.path.exists(s):
-        logging.error('Invalid Source Folder')
+        logging.error("Invalid Source Folder")
     if not os.path.exists(t):
-        logging.error('Invalid Target Folder')
+        logging.error("Invalid Target Folder")
+
 
 def load_parallel_corpus(source_folder, target_folder):
     validate_folder_paths(s=source_folder, t=target_folder)
-        
+
     source_corpus = ParatextTextCorpus(source_folder)
     target_corpus = ParatextTextCorpus(target_folder)
-    parallel_corpus = source_corpus.align_rows(target_corpus).tokenize(LatinWordTokenizer())
+    parallel_corpus = source_corpus.align_rows(target_corpus).tokenize(
+        LatinWordTokenizer()
+    )
     return parallel_corpus
 
+
 try:
-    parallel_corpus = load_parallel_corpus(args.source_folder[0], args.source_folder[0])
+    parallel_corpus = load_parallel_corpus(args.source_folder[0], args.target_folder[0])
 except Exception as e:
-    logging.error(f'Error generating the parallel corpus: {e}')
+    logging.error(f"Error generating the parallel corpus: {e}")
 
 try:
     aligned_corpus = word_align_corpus(parallel_corpus.lowercase(), aligner="ibm1")
 except Exception as e:
-    logging.error(f'Error generating aligned corpus: {e}')
+    logging.error(f"Error generating aligned corpus: {e}")
 
 # training a model from scratch
 try:
     os.makedirs("out/VBL-WEB-IBM1", exist_ok=True)
     trainer = ThotWordAlignmentModelTrainer(
-        ThotWordAlignmentModelType.IBM1, parallel_corpus.lowercase(), "out/VBL-WEB-IBM1/src_trg"
+        ThotWordAlignmentModelType.IBM1,
+        parallel_corpus.lowercase(),
+        "out/VBL-WEB-IBM1/src_trg",
     )
 
-    trainer.train(lambda status: logging.info("Training IBM-1 model: {:.2%}".format(status.percent_completed)))
+    trainer.train(
+        lambda status: logging.info(
+            "Training IBM-1 model: {:.2%}".format(status.percent_completed)
+        )
+    )
     trainer.save()
     logging.info("IBM-1 model saved")
 except Exception as e:
-    logging.info(f'Error training model: {e}')
+    logging.info(f"Error training model: {e}")
 
 # aligning sentences in batches instead of one at a time
 try:
@@ -108,18 +140,26 @@ try:
     segment_batch = list(parallel_corpus.lowercase())
     alignments = model.align_batch(segment_batch)
 except Exception as e:
-    logging.error(f'Error creating alignments: {e}')
+    logging.error(f"Error creating alignments: {e}")
 
 # symmetrize alignment models for better quality
 try:
     src_trg_trainer = ThotWordAlignmentModelTrainer(
-        ThotWordAlignmentModelType.IBM1, parallel_corpus.lowercase(), "out/VBL-WEB-IBM1/src_trg"
+        ThotWordAlignmentModelType.IBM1,
+        parallel_corpus.lowercase(),
+        "out/VBL-WEB-IBM1/src_trg",
     )
     trg_src_trainer = ThotWordAlignmentModelTrainer(
-        ThotWordAlignmentModelType.IBM1, parallel_corpus.invert().lowercase(), "out/VBL-WEB-IBM1/trg_src"
+        ThotWordAlignmentModelType.IBM1,
+        parallel_corpus.invert().lowercase(),
+        "out/VBL-WEB-IBM1/trg_src",
     )
-    symmetrized_trainer = SymmetrizedWordAlignmentModelTrainer(src_trg_trainer, trg_src_trainer)
-    symmetrized_trainer.train(lambda status: logging.info(f"{status.message}: {status.percent_completed:.2%}"))
+    symmetrized_trainer = SymmetrizedWordAlignmentModelTrainer(
+        src_trg_trainer, trg_src_trainer
+    )
+    symmetrized_trainer.train(
+        lambda status: logging.info(f"{status.message}: {status.percent_completed:.2%}")
+    )
     symmetrized_trainer.save()
 
     src_trg_model = ThotIbm1WordAlignmentModel("out/VBL-WEB-IBM1/src_trg")
@@ -127,7 +167,7 @@ try:
     symmetrized_model = ThotSymmetrizedWordAlignmentModel(src_trg_model, trg_src_model)
     symmetrized_model.heuristic = SymmetrizationHeuristic.GROW_DIAG_FINAL_AND
 except Exception as e:
-    logging.error(f'Error symmetrizing trainer: {e}')
+    logging.error(f"Error symmetrizing trainer: {e}")
 
 # align on data
 try:
@@ -142,64 +182,89 @@ try:
     segment_batch = list(parallel_corpus.lowercase())
     alignments = symmetrized_model.align_batch(segment_batch)
 except Exception as e:
-    logging.error(f'Error aligning data: {e}')
+    logging.error(f"Error aligning data: {e}")
+
 
 def create_alignment_images(data, verse):
-    fig = plt.figure(figsize=(7,10), dpi=300)
+    fig = plt.figure(figsize=(7, 10), dpi=300)
     ax = plt.subplot()
-    
+
     ncols = 2
     nrows = data.shape[0]
-    
+
     ax.set_xlim(0, ncols + 1)
     ax.set_ylim(0, nrows)
-    
-    positions = [.75, 2]
-    columns = ['source', 'target']
-    
+
+    positions = [0.75, 2]
+    columns = ["source", "target"]
+
     for i in range(nrows):
         for j, column in enumerate(columns):
             ax.annotate(
-                xy = (positions[j], i + .5),
-                text = data[column].iloc[i],
-                ha = 'center',
-                va = 'center'
+                xy=(positions[j], i + 0.5),
+                text=data[column].iloc[i],
+                ha="center",
+                va="center",
             )
-    
-    column_names = ['Source\nLanguage', 'Target\nLanguage']
+
+    column_names = ["Source\nLanguage", "Target\nLanguage"]
     for i in range(nrows):
         for index, column in enumerate(column_names):
             ax.annotate(
                 xy=(positions[index], nrows),
                 text=column_names[index],
-                ha='center',
-                va='bottom',
-                weight='bold'
+                ha="center",
+                va="bottom",
+                weight="bold",
             )
-            
-    ax.plot([ax.get_xlim()[0], ax.get_xlim()[1]], [nrows, nrows], lw=1.5, color='black', marker='', zorder=4)
-    ax.plot([ax.get_xlim()[0], ax.get_xlim()[1]], [0, 0], lw=1.5, color='black', marker='', zorder=4)
+
+    ax.plot(
+        [ax.get_xlim()[0], ax.get_xlim()[1]],
+        [nrows, nrows],
+        lw=1.5,
+        color="black",
+        marker="",
+        zorder=4,
+    )
+    ax.plot(
+        [ax.get_xlim()[0], ax.get_xlim()[1]],
+        [0, 0],
+        lw=1.5,
+        color="black",
+        marker="",
+        zorder=4,
+    )
     for x in range(1, nrows):
-        ax.plot([ax.get_xlim()[0], ax.get_xlim()[1]], [x, x], lw=1.15, color='gray', ls=':', zorder=3 , marker='')
-            
+        ax.plot(
+            [ax.get_xlim()[0], ax.get_xlim()[1]],
+            [x, x],
+            lw=1.15,
+            color="gray",
+            ls=":",
+            zorder=3,
+            marker="",
+        )
+
     ax.set_axis_off()
 
-    plt.savefig('alignments/alignment_{}.png'.format(verse),
-                dpi = 300,
-                transparent = False,
-                bbox_inches = 'tight')
-    
+    plt.savefig(
+        "alignments/alignment_{}.png".format(verse),
+        dpi=300,
+        transparent=False,
+        bbox_inches="tight",
+    )
+
     matplotlib.pyplot.close()
-    
+
 
 verse = 1
 
 for (source_segment, target_segment), alignment in zip(segment_batch, alignments):
     spa = []
     eng = []
-    
+
     source = 0
-    
+
     for i in alignment:
         true_indices = np.where(i)[0]  # Find the indices where the value is True
         if len(true_indices) > 0:
@@ -209,18 +274,19 @@ for (source_segment, target_segment), alignment in zip(segment_batch, alignments
 
             spa.append(key1)
             eng.append(value2)
-            
+
         source += 1
-        
+
     ### create a visualization ###
     table = pd.DataFrame(
-    {
-        'source': spa,
-        'target': eng,
-    })
-    
+        {
+            "source": spa,
+            "target": eng,
+        }
+    )
+
     create_alignment_images(data=table, verse=verse)
 
     verse += 1
-    
-logging.info('Task Completed!')
+
+logging.info("Task Completed!")
