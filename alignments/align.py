@@ -37,6 +37,7 @@ import matplotlib.pyplot as plt
 import argparse
 import logging
 import sys
+import matplotlib
 
 # Set up logging to keep track of error handling in both the terminal and for getting help if needed.
 logging.basicConfig(filename='alignment.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -187,6 +188,8 @@ def create_alignment_images(data, verse):
                 dpi = 300,
                 transparent = False,
                 bbox_inches = 'tight')
+    
+    matplotlib.pyplot.close()
     
 
 verse = 1
