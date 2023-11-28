@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protasis and Apodosis Data Table</title>
+    <!-- npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch-->
+    <link href="assets/style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'match-p': '#10B981',
+                        'match-q': '#3B82F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .match-selected {
+            box-shadow: 0 0 0 2px currentColor;
+        }
+        .opacity-50 {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="table_script.js"></script>
+</body>
+</html>
