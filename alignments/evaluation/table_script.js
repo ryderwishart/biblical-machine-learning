@@ -27,13 +27,16 @@ function parseCsvData(csvData) {
   const extractedData = parsedData.data.map(row => ({
     VrefID: row['vref'],
     ProtasisString: row['Protasis'],
+    ProtasisPrediction: row['Protasis Gloss'],
     ApodosisString: row['Apodosis'],
+    ApodosisPrediction: row['Apodosis Gloss'],
     PossibleTokens: row['Possible_Tokens']
   }));
 
   return extractedData;
 }
 
+// TODO: change exportTableToCSV to export generated data
 function exportTableToCSV(filename) {
   const table = document.querySelector('.container table'); // Select the newly created table within the container
   const rows = table.querySelectorAll('tr'); // Select all the rows in the table
@@ -65,7 +68,7 @@ function App() {
   const table = createDOMElement('table', { class: 'min-w-full bg-white' });
   const thead = createDOMElement('thead');
   const tbody = createDOMElement('tbody');
-  const csvFilePath = 'Protasis Apodosis Analysis.csv';
+  const csvFilePath = 'Condensed Protasis Apodosis Analysis.csv';
 
   fetch(csvFilePath)
   .then(response => response.text())
@@ -74,22 +77,49 @@ function App() {
     const parsedData = parseCsvData(csvData); // Assuming you have a function to parse the CSV data
     // Populate the csvData array with the parsed data
     csvData = parsedData;
-    // Populate the table with the extracted data
-    csvData.forEach(rowData => {
-      const row = createDOMElement('tr');
-      Object.values(rowData).forEach(value => {
-        const td = createDOMElement('td', { class: 'border px-4 py-2' }, value);
-        row.appendChild(td);
+    // Populate the table with the extracted data, including the conversion of Possible_Tokens into buttons
+    // Populate the table with the extracted data, including the conversion of Possible_Tokens into buttons
+// Assuming csvData is an array of objects
+// Assuming csvData is an array of objects
+csvData.forEach(rowData => {
+  const row = createDOMElement('tr');
+  Object.entries(rowData).forEach(([key, value]) => {
+    if ((key === 'Possible_Tokens' || key === 'ProtasisPrediction' || key === 'ApodosisPrediction') && typeof value === 'string' && value.startsWith("[('") && value.endsWith("')]")) {
+      const listString = value.slice(3, -2); // Remove the brackets and quotes
+      const list = listString.split("), (").map(item => item.replace(/'/g, '').split(', '));
+      const buttonContainer = createDOMElement('div', { class: 'button-container' });
+      list.forEach(tuple => {
+        const button = createDOMElement('button', { 
+          class: 'token-button', 
+          style: 'background-color: #4CAF50; /* Green */ border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;' 
+        }, tuple.join(', '));
+        button.addEventListener('click', () => {
+          if (button.classList.contains('active')) {
+            button.classList.remove('active');
+            // Handle toggling off functionality
+          } else {
+            button.classList.add('active');
+            // Handle toggling on functionality
+          }
+        });
+        buttonContainer.appendChild(button);
       });
-      tbody.appendChild(row);
-    });
+      row.appendChild(buttonContainer);
+    } else {
+      // If the value is not in the specified format, create a regular table cell
+      const td = createDOMElement('td', { class: 'border px-4 py-2' }, value);
+      row.appendChild(td);
+    }
+  });
+  tbody.appendChild(row);
+});
   })
   .catch(error => {
     console.error('Error fetching the .csv file:', error);
   });
 
   // Create table headers
-  const headers = ['Vref ID', 'Original Protasis string', 'Original Apodosis string', 'Possible tokens'];
+  const headers = ['Vref ID', 'Original Protasis String', 'Predicted Protasis Tokens', 'Original Apodosis String', 'Predicted Apodosis Tokens', 'Possible Tokens'];
   const headerRow = createDOMElement('tr');
   headers.forEach(header => {
     const th = createDOMElement('th', { class: 'border px-4 py-2' }, header);
