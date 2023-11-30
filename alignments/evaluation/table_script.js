@@ -30,7 +30,7 @@ function parseCsvData(csvData) {
     ProtasisPrediction: row['Protasis Gloss'],
     ApodosisString: row['Apodosis'],
     ApodosisPrediction: row['Apodosis Gloss'],
-    PossibleTokens: row['Possible_Tokens']
+    PossibleTokens: row['PossibleTokens']
   }));
 
   return extractedData;
@@ -77,34 +77,39 @@ function App() {
     const parsedData = parseCsvData(csvData); // Assuming you have a function to parse the CSV data
     // Populate the csvData array with the parsed data
     csvData = parsedData;
-    // Populate the table with the extracted data, including the conversion of Possible_Tokens into buttons
-    // Populate the table with the extracted data, including the conversion of Possible_Tokens into buttons
-// Assuming csvData is an array of objects
-// Assuming csvData is an array of objects
+const columnOrder = ['VrefID', 'ProtasisString', 'ProtasisPrediction', 'ApodosisString', 'ApodosisPrediction', 'PossibleTokens'];
+
+let selectedButton = null;
+let buttons = [];
+
 csvData.forEach(rowData => {
   const row = createDOMElement('tr');
   Object.entries(rowData).forEach(([key, value]) => {
-    if ((key === 'Possible_Tokens' || key === 'ProtasisPrediction' || key === 'ApodosisPrediction') && typeof value === 'string' && value.startsWith("[('") && value.endsWith("')]")) {
+    if ((key === 'PossibleTokens' || key === 'ProtasisPrediction' || key === 'ApodosisPrediction') && typeof value === 'string' && value.startsWith("[('") && value.endsWith("')]")) {
+      console.log(value)
       const listString = value.slice(3, -2); // Remove the brackets and quotes
       const list = listString.split("), (").map(item => item.replace(/'/g, '').split(', '));
+      console.log(typeof list)
       const buttonContainer = createDOMElement('div', { class: 'button-container' });
+
       list.forEach(tuple => {
         const button = createDOMElement('button', { 
           class: 'token-button', 
-          style: 'background-color: #4CAF50; /* Green */ border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;' 
+          style: 'background-color: green; border: none; color: white; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;' 
         }, tuple.join(', '));
         button.addEventListener('click', () => {
-          if (button.classList.contains('active')) {
-            button.classList.remove('active');
-            // Handle toggling off functionality
-          } else {
-            button.classList.add('active');
-            // Handle toggling on functionality
+          if (selectedButton) {
+            selectedButton.style.backgroundColor = 'green'; // Deselect the currently selected button
           }
+          button.style.backgroundColor = 'blue'; // Select the new button
+          selectedButton = button; // Update the currently selected button
         });
         buttonContainer.appendChild(button);
+        buttons.push(button); // Add the button to the buttons array
       });
-      row.appendChild(buttonContainer);
+      const td = createDOMElement('td', { class: 'border px-4 py-2' });
+      td.appendChild(buttonContainer);
+      row.appendChild(td);
     } else {
       // If the value is not in the specified format, create a regular table cell
       const td = createDOMElement('td', { class: 'border px-4 py-2' }, value);
@@ -117,6 +122,28 @@ csvData.forEach(rowData => {
   .catch(error => {
     console.error('Error fetching the .csv file:', error);
   });
+  
+// Add a keydown event listener to the window
+window.addEventListener('keydown', (event) => {
+  if (selectedButton && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+    event.preventDefault(); // Prevent the default behavior (scrolling)
+    const index = buttons.indexOf(selectedButton);
+    switch (event.key) {
+      case 'ArrowUp':
+      case 'ArrowLeft':
+        if (index > 0) {
+          buttons[index - 1].click();
+        }
+        break;
+      case 'ArrowDown':
+      case 'ArrowRight':
+        if (index < buttons.length - 1) {
+          buttons[index + 1].click();
+        }
+        break;
+    }
+  }
+});
 
   // Create table headers
   const headers = ['Vref ID', 'Original Protasis String', 'Predicted Protasis Tokens', 'Original Apodosis String', 'Predicted Apodosis Tokens', 'Possible Tokens'];
