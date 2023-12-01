@@ -36,24 +36,16 @@ function parseCsvData(csvData) {
   return extractedData;
 }
 
-// TODO: change exportTableToCSV to export generated data
-function exportTableToCSV(filename) {
-  const table = document.querySelector('.container table'); // Select the newly created table within the container
-  const rows = table.querySelectorAll('tr'); // Select all the rows in the table
-  let csvContent = '';
-
-  rows.forEach(row => {
-    const rowData = [];
-    row.querySelectorAll('td').forEach(cell => { // Only select td elements for data cells
-      rowData.push(cell.textContent);
-    });
-    csvContent += rowData.join(',') + '\n';
-  });
-
-  // Create a blob with the CSV content
-  const blob = new Blob([csvContent], { type: 'text/csv' });
-
-  // Create a link element to trigger the download
+function exportTableTextToCSV(filename, tableText) {
+  const csvContent = tableText.map(row => row.map(cell => {
+    if (Array.isArray(cell)) {
+      return `"(${cell.join(', ')})"`;
+    } else {
+      return `"${cell}"`;
+    }
+  }).join(',')).join('\n');
+  const csvContentWithHeaders = `vref,ProtasisText,ProtasisPrediction,ApodosisText,ApodosisPrediction,PossibleTokens${csvContent}`;
+  const blob = new Blob([csvContentWithHeaders], { type: 'text/csv' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
   link.download = filename;
@@ -62,7 +54,6 @@ function exportTableToCSV(filename) {
 
 function App() {
   const container = createDOMElement('div', { class: 'container mx-auto p-6' });
-  const heading = createDOMElement('h1', { class: 'text-xl font-bold mb-4' }, 'Protasis (p) and Apodosis (q) data table, with predicted matches');
   const button = createDOMElement('button', { id: 'export-csv', class: 'bg-gray-200 hover:bg-gray-300 text-black font-semibold py-2 px-4 rounded' }, 'Export to CSV');
   const buttonContainer = createDOMElement('div', { class: 'mb-4' }, button);
   const table = createDOMElement('table', { class: 'min-w-full bg-white' });
@@ -117,62 +108,89 @@ csvData.forEach((rowData, rowIndex) => {
   });
   tbody.appendChild(row);
 });
+// Assuming the buttons array is properly populated before this event listener
+const tableText = [];
+const rows = table.getElementsByTagName('tr');
+for (let i = 0; i < rows.length; i++) {
+  const rowData = [];
+  const cells = rows[i].getElementsByTagName('td');
+  for (let j = 0; j < cells.length; j++) {
+    const buttonContainer = cells[j].querySelector('.button-container');
+    if (buttonContainer) {
+      const buttonValues = Array.from(buttonContainer.children).map(button => {
+        return `(${button.textContent})`;
+      });
+      rowData.push(buttonValues.join(','));
+    } else {
+      rowData.push(cells[j].innerText);
+    }
+  }
+  tableText.push(rowData);
+}
+// Log the extracted table text to the console
+console.log(tableText.join('\n'));
 
-// Add a keydown event listener to the window
-// Add a keydown event listener to the window
+button.addEventListener('click', () => {
+  exportTableTextToCSV('table.csv', tableText);
+});
+
 window.addEventListener('keydown', (event) => {
-  if (selectedButton && (event.key === 'z' || event.key === 'x')) {
-    event.preventDefault(); // Prevent the default behavior (e.g., scrolling)
-    const rowIndex = buttons.findIndex(row => row.includes(selectedButton));
-    const columnIndex = buttons[rowIndex].findIndex(button => button === selectedButton);
-    if (rowIndex !== -1 && columnIndex !== -1) {
-      const targetColumnIndex = event.key === 'z' ? 2 : 4; // 2 for ProtasisPrediction, 4 for ApodosisPrediction
+  if (selectedButton && (['z', 'x', 'c'].includes(event.key))) {
+    const rowIndex = Array.from(selectedButton.closest('tr').parentElement.children).indexOf(selectedButton.closest('tr'));
+    if (rowIndex !== -1) {
+      const columnIndex = Array.from(selectedButton.closest('tr').children).indexOf(selectedButton.closest('td'));
+      let targetColumnIndex;
+      switch (event.key) {
+        case 'z':
+          targetColumnIndex = 2; // ProtasisPrediction column
+          break;
+        case 'x':
+          targetColumnIndex = 4; // ApodosisPrediction column
+          break;
+        case 'c':
+          targetColumnIndex = 5; // PossibleTokens column
+          break;
+        default:
+          return; // Exit the function if the key is not 'z', 'x', or 'c'
+      }
       const targetCell = document.querySelector(`.container table tbody tr:nth-child(${rowIndex + 1}) td:nth-child(${targetColumnIndex + 1})`);
       targetCell.appendChild(selectedButton);
     }
   }
 });
 
-// Add a keydown event listener to the window
+// Assuming the buttons array is properly populated before this event listener
 window.addEventListener('keydown', (event) => {
   if (selectedButton && ['w', 'a', 's', 'd'].includes(event.key)) {
     event.preventDefault(); // Prevent the default behavior (scrolling)
     const rowIndex = buttons.findIndex(row => row.includes(selectedButton));
-    const columnIndex = buttons[rowIndex].indexOf(selectedButton);
     if (rowIndex !== -1) { // Check if selectedButton was found
       const columnIndex = buttons[rowIndex].indexOf(selectedButton);
       switch (event.key) {
         case 'w':
           if (rowIndex > 0) {
             buttons[rowIndex - 1][columnIndex].onclick();
-          } else {
-            buttons[buttons.length - 1][columnIndex].onclick(); // Loop back to the end of the column
           }
           break;
         case 's':
           if (rowIndex < buttons.length - 1) {
             buttons[rowIndex + 1][columnIndex].onclick();
-          } else {
-            buttons[0][columnIndex].onclick(); // Loop back to the start of the column
           }
           break;
         case 'a':
           if (columnIndex > 0) {
             buttons[rowIndex][columnIndex - 1].onclick();
-          } else {
-            buttons[rowIndex][buttons[rowIndex].length - 1].onclick(); // Loop back to the end of the row
           }
           break;
         case 'd':
           if (columnIndex < buttons[rowIndex].length - 1) {
             buttons[rowIndex][columnIndex + 1].onclick();
-          } else {
-            buttons[rowIndex][0].onclick(); // Loop back to the start of the row
           }
           break;
+      }
     }
   }
-}});
+});
 
   })
   .catch(error => {
@@ -203,13 +221,22 @@ window.addEventListener('keydown', (event) => {
 
   table.appendChild(thead);
   table.appendChild(tbody);
-  container.appendChild(heading);
   container.appendChild(buttonContainer);
   container.appendChild(table);
 
-  button.addEventListener('click', () => {
-    exportTableToCSV('table.csv');
-  });
+// Assuming the table variable holds the reference to your table element
+const tableText = [];
+const rows = table.getElementsByTagName('tr');
+for (let i = 0; i < rows.length; i++) {
+  const rowData = [];
+  const cells = rows[i].getElementsByTagName('td');
+  for (let j = 0; j < cells.length; j++) {
+    rowData.push(cells[j].innerText);
+  }
+  tableText.push(rowData.join(', '));
+}
+
+
 
   return container;
 }
@@ -217,3 +244,4 @@ window.addEventListener('keydown', (event) => {
 // Assuming there is a root element in your HTML where you want to render the App component
 const rootElement = document.getElementById('root');
 rootElement.appendChild(App());
+
