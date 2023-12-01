@@ -82,16 +82,15 @@ const columnOrder = ['VrefID', 'ProtasisString', 'ProtasisPrediction', 'Apodosis
 let selectedButton = null;
 let buttons = [];
 
-csvData.forEach(rowData => {
+csvData.forEach((rowData, rowIndex) => {
+  buttons[rowIndex] = [];
   const row = createDOMElement('tr');
-  Object.entries(rowData).forEach(([key, value]) => {
+  columnOrder.forEach((key, columnIndex) => {
+    const value = rowData[key];
     if ((key === 'PossibleTokens' || key === 'ProtasisPrediction' || key === 'ApodosisPrediction') && typeof value === 'string' && value.startsWith("[('") && value.endsWith("')]")) {
-      console.log(value)
       const listString = value.slice(3, -2); // Remove the brackets and quotes
       const list = listString.split("), (").map(item => item.replace(/'/g, '').split(', '));
-      console.log(typeof list)
       const buttonContainer = createDOMElement('div', { class: 'button-container' });
-
       list.forEach(tuple => {
         const button = createDOMElement('button', { 
           class: 'token-button', 
@@ -105,7 +104,7 @@ csvData.forEach(rowData => {
           selectedButton = button; // Update the currently selected button
         });
         buttonContainer.appendChild(button);
-        buttons.push(button); // Add the button to the buttons array
+        buttons[rowIndex][columnIndex] = button; // Add the button to the buttons array
       });
       const td = createDOMElement('td', { class: 'border px-4 py-2' });
       td.appendChild(buttonContainer);
@@ -118,32 +117,69 @@ csvData.forEach(rowData => {
   });
   tbody.appendChild(row);
 });
+
+// Add a keydown event listener to the window
+// Add a keydown event listener to the window
+window.addEventListener('keydown', (event) => {
+  if (selectedButton && (event.key === 'z' || event.key === 'x')) {
+    event.preventDefault(); // Prevent the default behavior (e.g., scrolling)
+    const rowIndex = buttons.findIndex(row => row.includes(selectedButton));
+    const columnIndex = buttons[rowIndex].findIndex(button => button === selectedButton);
+    if (rowIndex !== -1 && columnIndex !== -1) {
+      const targetColumnIndex = event.key === 'z' ? 2 : 4; // 2 for ProtasisPrediction, 4 for ApodosisPrediction
+      const targetCell = document.querySelector(`.container table tbody tr:nth-child(${rowIndex + 1}) td:nth-child(${targetColumnIndex + 1})`);
+      targetCell.appendChild(selectedButton);
+    }
+  }
+});
+
+// Add a keydown event listener to the window
+window.addEventListener('keydown', (event) => {
+  if (selectedButton && ['w', 'a', 's', 'd'].includes(event.key)) {
+    event.preventDefault(); // Prevent the default behavior (scrolling)
+    const rowIndex = buttons.findIndex(row => row.includes(selectedButton));
+    const columnIndex = buttons[rowIndex].indexOf(selectedButton);
+    if (rowIndex !== -1) { // Check if selectedButton was found
+      const columnIndex = buttons[rowIndex].indexOf(selectedButton);
+      switch (event.key) {
+        case 'w':
+          if (rowIndex > 0) {
+            buttons[rowIndex - 1][columnIndex].onclick();
+          } else {
+            buttons[buttons.length - 1][columnIndex].onclick(); // Loop back to the end of the column
+          }
+          break;
+        case 's':
+          if (rowIndex < buttons.length - 1) {
+            buttons[rowIndex + 1][columnIndex].onclick();
+          } else {
+            buttons[0][columnIndex].onclick(); // Loop back to the start of the column
+          }
+          break;
+        case 'a':
+          if (columnIndex > 0) {
+            buttons[rowIndex][columnIndex - 1].onclick();
+          } else {
+            buttons[rowIndex][buttons[rowIndex].length - 1].onclick(); // Loop back to the end of the row
+          }
+          break;
+        case 'd':
+          if (columnIndex < buttons[rowIndex].length - 1) {
+            buttons[rowIndex][columnIndex + 1].onclick();
+          } else {
+            buttons[rowIndex][0].onclick(); // Loop back to the start of the row
+          }
+          break;
+    }
+  }
+}});
+
   })
   .catch(error => {
     console.error('Error fetching the .csv file:', error);
   });
   
-// Add a keydown event listener to the window
-window.addEventListener('keydown', (event) => {
-  if (selectedButton && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-    event.preventDefault(); // Prevent the default behavior (scrolling)
-    const index = buttons.indexOf(selectedButton);
-    switch (event.key) {
-      case 'ArrowUp':
-      case 'ArrowLeft':
-        if (index > 0) {
-          buttons[index - 1].click();
-        }
-        break;
-      case 'ArrowDown':
-      case 'ArrowRight':
-        if (index < buttons.length - 1) {
-          buttons[index + 1].click();
-        }
-        break;
-    }
-  }
-});
+
 
   // Create table headers
   const headers = ['Vref ID', 'Original Protasis String', 'Predicted Protasis Tokens', 'Original Apodosis String', 'Predicted Apodosis Tokens', 'Possible Tokens'];
