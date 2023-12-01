@@ -1,11 +1,18 @@
-/*
-! tailwindcss v3.3.5 | MIT License | https://tailwindcss.com
-*/
+body h1 {
+  font-size: 36px;
+  text-align: center;
+}
 
-/*
-1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
-2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
-*/
+.btn {
+  border: 2px solid black;
+  border-radius: 15%;
+  padding: 0 7px 3px;
+}
+
+.inst p {
+  margin: 10px;
+  text-align: center;
+}
 
 *,
 ::before,
@@ -227,7 +234,7 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-  -webkit-appearance: button;
+  appearance: button;
   /* 1 */
   background-color: transparent;
   /* 2 */
@@ -274,7 +281,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type='search'] {
-  -webkit-appearance: textfield;
+  appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
@@ -414,7 +421,6 @@ embed,
 object {
   display: block;
   /* 1 */
-  vertical-align: middle;
   /* 2 */
 }
 
